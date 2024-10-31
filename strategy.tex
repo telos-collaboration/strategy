@@ -339,7 +339,7 @@ particularly for larger collaborations,
 and for individuals whose names collide with common words associated with authorship.
 (For example,
 ``Ed'' is both a name
-and an abbrevation that may be placed in front of a name
+and an abbreviation that may be placed in front of a name
 to indicate that the latter's owner is an ``editor''.
 This means that people with the former name frequently have their names abbreviated on INSPIRE.)
 
@@ -353,7 +353,7 @@ A template for this file is available in the TELOS Collaboration Resources repos
 If this is used,
 elements marked \verb|TODO| \must be replaced,
 and authors' details \must be checked,
-before publiaction.
+before publication.
 
 When preparing to submit to the arXiv,
 in addition to the LaTeX sources and assets,
@@ -437,7 +437,7 @@ to maximise interoperability with others' work.
 
 \begin{itemize}
   \item
-        Numbers with single symmetric uncertainties \must be formatted with columns labeled
+        Numbers with single symmetric uncertainties \must be formatted with columns labelled
         \verb|{name}_value| and \verb|{name}_uncertainty|.
   \item
         Numbers with asymmetric uncertainties \must use the suffixes
@@ -523,7 +523,7 @@ reformatted into a packed format readable by standard libraries.
   \item
         A single HDF5 file for all ensembles \should be preferred
         to one file per ensemble per measurement,
-        to minimize the effort needed to download and use the data.
+        to minimise the effort needed to download and use the data.
   \item
         Datasets and groups in the HDF5 structure \must be given
         sufficient metadata to identify the specific ensembles they refer to,
@@ -593,7 +593,7 @@ included in the data release.
   \item
         The primary documentation \should have a filename beginning \readme.
   \item
-        Documentation \must be provided in a plaintext, human-readable format.
+        Documentation \must be provided in a plain-text, human-readable format.
         At time of writing,
         this \should be Markdown.
   \item
@@ -898,7 +898,7 @@ The \readme of a workflow release \must contain:
         to generate the assets presented in the corresponding article.
         (You \may,
         for example,
-        changethe parallelisation options to Snakemake is allowed,
+        change the parallelisation options to Snakemake is allowed,
         but \mustnot use an entirely different script.)
   \item
         Information on the approximate expected runtime of the workflow,
@@ -946,7 +946,7 @@ or may be based on the skeleton example in the resources repository~\cite{resour
 If the latter is used,
 elements marked \verb|TODO| \must be replaced,
 and authors' details \must be checked,
-before publiaction.
+before publication.
 
 \subsubsection{\filename{.gitignore}}
 
@@ -957,7 +957,7 @@ not wanted to be committed to a repository.
 This \may be based on a template such as that provided by GitHub~\cite{gitignore-python},
 but \should also specify the directories expected to contain
 data downloaded from the data release,
-and files ouptut by the workflow.
+and files output by the workflow.
 A minimal \filename{.gitignore} file for a workflow matching the description below might be,
 
 \begin{verbatim}
@@ -1054,7 +1054,7 @@ You \may use \program{pre-commit CI}~\cite{pre-commit-ci} to keep these up to da
 
 \subsection{Workflow management}
 
-Peforming an analysis in lattice quantum field theory has many moving parts.
+Performing an analysis in lattice quantum field theory has many moving parts.
 We typically work with many ensembles,
 for each of which we compute many observables.
 We want to combine subsets of each of these in different ways,
@@ -1165,7 +1165,7 @@ then the workflow might be structured as the following:
   \item
         A rule to take one ensemble's gradient flow history,
         and output bootstrap samples for $w_{0}$ to a file,
-        labeled by an ensemble identifier and the observable name
+        labelled by an ensemble identifier and the observable name
         (for example,
         \texttt{Sp4nF2b6.7mF-0.62T48L32/\hspace{0pt}w0\_samples.json}).
         This file should also carry metadata and provenance information about the ensemble.
@@ -1174,7 +1174,7 @@ then the workflow might be structured as the following:
         and using the plateau position metadata,
         compute the mass of one mesonic channel $aM_{X}$,
         outputting bootstrap samples to a file,
-        labeled by an ensemble identifier and the channel name
+        labelled by an ensemble identifier and the channel name
         (for example,
         \texttt{Sp4nF2b6.7mF-0.62T48L32/\hspace{0pt}ps\_mass\_samples.json}).
 
@@ -1182,7 +1182,7 @@ then the workflow might be structured as the following:
   \item
         A rule to take the bootstrap samples for $aM_{X}$ and $w_{0}/a$,
         and output the dimensionless product $\hat{M}_{X}=w_{0}M_{X}$,
-        to a file labeled by an ensemble identifier and a description of the product
+        to a file labelled by an ensemble identifier and a description of the product
         (for example,
         \texttt{Sp4nF2b6.7mF-0.62T48L32/\hspace{0pt}normalised\_ps\_mass\_samples.json}).
         This file should also carry metadata and provenance information about the ensemble.
@@ -1739,7 +1739,7 @@ is a set of tasks that \should be completed before the goal can be completed
     \Task{open}{\readme contains data format descriptions for all files}
     \Task{open}{Raw data are all included}
     \Task{open}{CSVs are present for all data presented in paper (tabulated or plotted)}
-    \Task{open}{Archives do not contain unwanted files (e.g. operating system metadata files like \filename{.DS\_Store})}
+    \Task{open}{Archives do not contain unwanted files (e.g.\ operating system metadata files like \filename{.DS\_Store})}
     \Task{open}{Release cross-checked with analysis workflow by another collaboration member}
   \end{CheckList}
   \Goal{open}{Publish analysis workflow}
