@@ -1,0 +1,1805 @@
+\documentclass{article}
+\usepackage{hyperref}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{xspace}
+\usepackage{typed-checklist}
+
+\newcommand\rfcword[1]{\emph{#1}\xspace}
+\newcommand\must{\rfcword{must}}
+\newcommand\mustnot{\rfcword{must not}}
+\newcommand\required{\rfcword{required}}
+\newcommand\shall{\rfcword{shall}}
+\newcommand\shallnot{\rfcword{shall not}}
+\newcommand\should{\rfcword{should}}
+\newcommand\shouldnot{\rfcword{should not}}
+\newcommand\recommended{\rfcword{recommended}}
+\newcommand\may{\rfcword{may}}
+\newcommand\optional{\rfcword{optional}}
+
+\newcommand\filename[1]{\texttt{#1}\xspace}
+\newcommand\readme{\filename{README}\xspace}
+\newcommand\authorxml{\filename{author.xml}\xspace}
+\newcommand\program[1]{\textsc{#1}\xspace}
+
+
+\title{The TELOS Collaboration Approach to Reproducibility and Open Science}
+
+\author{Ed Bennett\\for the TELOS Collaboration}
+
+\date{2024-10-..., version 0.0.1}
+
+\begin{document}
+
+\maketitle
+
+\abstract{
+  The TELOS Collaboration is committed to producing and analysing data reproducibly,
+  and sharing its research openly.
+  In this document,
+  we set out the ways that we make this happen,
+  where there is scope for improvement,
+  and how we plan to achieve this.
+  This is intended to work both as a statement of policy,
+  and a guide to practice for those beginning to work with us.
+  Full tutorials on every aspect of reproducibility is
+  beyond the scope of this document,
+  but we refer to other resources for further information in these cases.
+}
+
+\makeatletter
+\renewcommand\tableofcontents{%
+    \subsection{\contentsname
+        \@mkboth{%
+           \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
+    \@starttoc{toc}%
+  }
+\makeatother
+
+\section{About this document}
+
+\subsection{Introduction}
+
+Reproducibility and openness are becoming increasingly important in science.
+Many fields have experienced some form of replication or reproducibility crisis,
+where work that had been taken as fact was subsequently found
+to be based on shaky results that did not stand up to scrutiny.
+As a fully computational discipline,
+there is no reason in principle
+that work in lattice quantum field theory should not be fully reproducible end to end.
+In some cases,
+this comes into tension with making optimal use of computing resources;
+in this document we will make explicit what compromises we make,
+and where improvements could be made to reduce the impact of these.
+It is also important that limited public resources not be wasted
+repeating the same work in multiple contexts
+because different groups did not have access to each others' data.
+Our aim is to push forward the boundaries of human knowledge,
+and the main barriers to this are human and computational capacity;
+we believe that maximising the amount of our work that we share,
+and the ability of others to access and build on top of it,
+is the optimal way to overcome these.
+
+\tableofcontents
+
+\subsection{Version history}
+
+\begin{description}
+  \item[v0.0.1]
+        Initial draft.
+\end{description}
+
+\subsection{Definitions}
+
+\subsubsection{Reproducibility}\label{sec:reproducibility}
+
+In our work,
+we use the definitions of ``reproducibility'' and associated terms
+used by the Turing Way project~\cite{the_turing_way_community_2023_7625728}.
+Specifically,
+we define an analysis as:
+\begin{description}
+  \item[reproducible]
+        when another researcher is able to take the same data,
+        perform the same analysis on it,
+        and obtain the same results;
+  \item[replicable]
+        when another researcher is able to produce their own equivalent dataset,
+        perform the same analysis on it,
+        and obtain the same results;
+        and
+  \item[robust]
+        when another researcher is able to take the same data,
+        perform an alternative analysis on it,
+        and obtain results leading to the same conclusions.
+\end{description}
+Reproducibility is the simplest of these to achieve,
+and may be considered as trivial;
+indeed,
+science is predicated on it,
+and so work that is not reproducible is of limited value.
+
+\subsubsection{FAIR}
+
+Data and software tools may be described as FAIR if they are
+Findable, Accessible, Interoperable, and Reusable~\cite{wilkinson2016fair}.
+Specifically,
+data and metadata are
+\begin{description}
+  \item[Findable]
+        if they have a unique, persistent identifier,
+        are described by rich metadata linked back via this identifier,
+        and are indexed or registered in a searchable resource;
+  \item[Accessible]
+        if they are retrievable using a standardised, open communications protocol,
+        allowing for authentication and authorisation where necessary,
+        and where metadata remain available even after associated data are not;
+  \item[Interoperable]
+        if they use a formal, accessible, shared, and broadly applicable language for knowledge representation;
+        if they use vocabularies that follow the same FAIR principles,
+        and use qualified references to other data and metadata;
+        and
+  \item[Reusable]
+        if they are richly described with accurate and relevant attributes,
+        released with a clear and accessible license,
+        associated with detailed provenance,
+        and meet community-relevant standards.
+\end{description}
+
+\subsubsection{Open Science}
+
+Open Science or Open Research is
+the movement to make all research accessible to all levels of society.
+This may include not just papers,
+but also other outputs like data, software, and experimental samples,
+as well as including those from outside academia in
+the process of conducting research itself.
+This can only ever be an ideal to be strived towards,
+being tensioned against the costs of opening access to limited resources.
+
+\subsubsection{Copyright and licensing}
+
+Under copyright law,
+the default state is that
+when you provide someone with a piece of copyrighted work
+or a copy thereof,
+they have no right to make further copies of it.
+In a digital world,
+this includes many operations that are essential for consuming content,
+such as downloading a copy of a paper to read.
+Some actions may be construed as ``fair dealing'' or ``fair use'',
+where there is no penalty,
+but many important actions
+like reusing or building on top of a piece of work
+require explicit permission.
+All creative work,
+including academic papers, data, and software code,
+automatically receives copyright protection at the moment of its creation,
+which typically lasts for seventy years beyond the death of its creator.
+
+To avoid each person having to write their own forms of permission
+(many of which would be found unenforceable on contact with a lawyer),
+certain organisations have defined standard ``copyright licenses''
+that may be applied to a piece of work
+to grant others specific permissions regarding what they can do with it
+and what constraints they must comply with to benefit from these permissions.
+
+\paragraph{Creative Commons}
+
+Creative Commons defines a number of licenses suitable for papers and data.
+These can be recognised as a series of letters starting with ``CC''.
+The most common,
+and most relevant to our usage,
+is the Creative Commons Attribution License,
+CC BY~\cite{cc-by}.
+This gives recipients the right to make and distribute copies of a work,
+provided that the original author is clearly attributed.
+
+\paragraph{Software Licenses}
+
+Creative Commons licenses are not considered
+suitable for licensing software source code,
+due to concerns around software-specific issues such as patents.
+Instead,
+specific software licenses should be used.
+Two common ones are the MIT License~\cite{mit},
+which grants rights similar to those granted by CC BY,
+and the GNU General Public License~\cite{gpl},
+which imposes an additional requirement that
+if derivative work is distributed,
+this distribution is on the same terms.
+
+Much modern gadgetry makes use of MIT- and similarly-licensed software,
+with a long list of attributions,
+but likely little support given back to the original authors.
+GPL-licensed software is less used in this context,
+due to organisations not wanting to share their proprietary software
+and potentially give assistance to their competitors.
+The aim of GPL is that
+anyone should be free to modify and improve the software on their own devices;
+however,
+the extent to which this has succeeded is limited.
+
+\subsubsection{Paper stages}
+
+A paper has a number of stages in its preparation process:
+
+\begin{description}
+  \item[Draft]
+        Version worked on by one person,
+        or shared within the collaboration for comment
+  \item[Preprint]
+        Version posted on the arXiv for comments from the community,
+        in advance of submission to a journal.
+  \item[Author Accepted Manuscript]
+        Last version submitted to a journal before acceptance.
+        Incorporates feedback from peer reviewers.
+  \item[Version of Record]
+        Version distributed by the journal.
+        In some cases
+        (for example,
+        in the Journal of High Energy Physics
+        and Proceedings of Science)
+        this will appear near-identical to the Author Accepted Manuscript;
+        in others
+        (such as in Physical Review D)
+        this will have been
+        translated by the editorial office into a different style,
+        likely with one or more rounds of feedback
+        and checking of proofs.
+\end{description}
+
+\subsubsection{Persistent identifiers}
+
+A persistent identifier is
+an identifier that can be used to refer to
+a publication,
+a data asset,
+or some other object,
+that is unique within some system,
+and which provides some guarantee that it will remain available in the future.
+
+The Digital Object Identifier,
+or DOI,
+is an example of a persistent identifier.
+DOIs are issued by journals to refer to articles
+and by arXiv for preprints,
+and can also be generated for data and code assets.
+
+
+\subsubsection{Keywords}
+
+The key words
+``\must'',
+``\mustnot'',
+``\required'',
+``\shall'',
+``\shallnot'',
+``\should'',
+``\shouldnot'',
+``\recommended'',
+``\may'',
+and ``\optional''
+in this document are to be interpreted as described in RFC 2119~\cite{rfc2119}.
+
+
+
+\section{Publications}
+
+\subsection{Open Access}
+
+There has for a long time been a culture in theoretical particle physics,
+including in lattice,
+of sharing preprints openly using the arXiv~\cite{ginsparg2021lessons}.
+More recently,
+the SCOAP3 agreement has meant that
+articles published in
+typical journals for particle physics,
+such as Physics Letters B and Physical Review D,
+are made available as open access without additional charge.
+However,
+since not all journals or topics are included in this agreement,
+and to ensure
+that readers not able to afford journal subscriptions
+are able to access the corrected versions of papers,
+our funders now require us to retain rights to
+``Author Accepted Manuscripts'',
+that is,
+the versions of papers as accepted by the journal,
+after peer review,
+so that they can be shared under an open license.
+
+To enable this,
+all papers submitted by the TELOS collaboration
+\must include the following text in the submitted manuscript:
+
+\begin{quote}
+  For the purpose of open access,
+  the authors have applied a Creative Commons attribution (CC BY) licence
+  to any Author Accepted Manuscript version arising.
+\end{quote}
+
+Publishers sometimes remove this statement on publication;
+this does not affect the process.
+
+We \must also upload either a CC BY licensed Author Accepted Manuscript,
+or a CC BY licensed Version of Record,
+to an institutional repository.
+Where an article has not been covered by SCOAP3,
+we \mustnot upload a non-CC BY licensed Version of Record;
+the Author Accepted Manuscript \must be uploaded in that case.
+
+
+\subsection{\authorxml}
+
+When the INSPIRE database service ingests papers from arXiv,
+it typically must take the plain-text author list
+and parse it into a structured collection of references to known or new authors.
+This process is error-prone,
+particularly for larger collaborations,
+and for individuals whose names collide with common words associated with authorship.
+(For example,
+``Ed'' is both a name
+and an abbrevation that may be placed in front of a name
+to indicate that the latter's owner is an ``editor''.
+This means that people with the former name frequently have their names abbreviated on INSPIRE.)
+
+To avoid needing to manually send corrections to INSPIRE after each publication,
+INSPIRE recommends providing
+a structured, machine-readable set of metadata regarding authorship of a paper.
+This should be done in the form of a file named \authorxml,
+having a structure described in Ref.~\cite{inspire-authorxml}.
+
+A template for this file is available in the TELOS Collaboration Resources repository~\cite{resources}.
+If this is used,
+elements marked \verb|TODO| \must be replaced,
+and authors' details \must be checked,
+before publiaction.
+
+When preparing to submit to the arXiv,
+in addition to the LaTeX sources and assets,
+two additional files \should be included:
+
+\begin{itemize}
+  \item
+        The file \authorxml,
+        prepared as described above.
+  \item
+        The file \filename{author.dtd},
+        defining the structure that \authorxml follows,
+        available from Ref.~\cite{inspire-authorxml}.
+\end{itemize}
+
+\section{Data}\label{sec:data}
+
+The work that we present in publications can represent
+the output of hundreds of thousands of pounds' of computer time,
+and terawatt hours of energy.
+To ensure that this is not wasted,
+and so that others can reproduce our work
+and extract additional results beyond our initial work
+without needing to spend similar resources to regenerate the data,
+it is vital that we share our data openly.
+This also enable those quoting our data to do so easily
+without needing to transcribe numbers,
+which may introduce errors.
+
+Every peer-reviewed article that presents new data
+\must have an associated data release,
+including the new data that were generated in its preparation.
+A work that generates no new data,
+only presenting previously-analysed data,
+\shouldnot have a data release.
+Non-peer-reviewed work,
+such as conference proceedings,
+\may instead refer to
+the data release of an upcoming peer-reviewed article
+rather than having a separate data release;
+however,
+if such a work will not be forthcoming,
+a data release \should be prepared and published.
+
+A publication \must cite the associated data release using its DOI\@.
+Where a publication makes use of data prepared for a previous publication,
+the associated data release \must also be cited if it exists.
+If the publication did not have an associated data release,
+the data used from it \must instead by included in
+the current publication's associated workflow release.
+
+The data release associated with a publication
+\should be published in advance of the preprint being made available,
+and \must be published before the paper is published in the journal.
+
+\subsection{What to include in a data release}
+
+To maximise the utility of a data release to others,
+a number of classes of data are needed.
+
+\subsubsection{Final numbers}\label{sec:dr-numbers}
+
+To maximise the utility of our results to those looking to make direct use of them,
+data releases \must include all numbers that are plotted as points on a graph,
+and \should include all parameters for curves fitted using lattice data
+where these are of use to others.
+These \must be provided in CSV format,
+to maximise ease of use to those who may only be familiar with spreadsheet software.
+The number of different CSV files \should be minimised:
+data that are characterised by the same parameters
+\should be combined into a single file.
+For example,
+there \may be one file for numbers relating to individual ensembles,
+a second file for fit parameters relating to specific values of the coupling,
+and a third for fit parameters for continuum limit extrapolations.
+
+Currently there is no community-defined metadata schema for structuring such data.
+Nevertheless,
+we \should aim to use a common form for our data
+to maximise interoperability with others' work.
+
+\begin{itemize}
+  \item
+        Numbers with single symmetric uncertainties \must be formatted with columns labeled
+        \verb|{name}_value| and \verb|{name}_uncertainty|.
+  \item
+        Numbers with asymmetric uncertainties \must use the suffixes
+        \verb|upper_uncertainty| and \verb|lower_uncertainty|.
+  \item
+        Numbers with multiple sources of uncertainty \must use
+        \verb|uncertainty| or \verb|statistical_uncertainty|
+        as the suffix for the statistical uncertainty,
+        and \must use suffixes of the form
+        \verb|{uncertainty_type}_uncertainty|
+        for other sources of uncertainty,
+        such as systematic.
+  \item
+        Metrics associated with each other \must use a common prefix.
+        For example,
+        the mass and matrix element from fitting a pseudoscalar correlation function
+        and the associated $\chi^{2}/\textnormal{d.o.f.}$
+        might use column names
+        \verb|ps_mass_value|,
+        \verb|ps_mass_uncertainty|,
+        \verb|ps_matrix_element_value|,
+        \verb|ps_matrix_element_uncertainty|,
+        and \verb|ps_chisquare|.
+  \item
+        Numbers \must be given to the full machine precision at which they were originally presented,
+        not truncated or rounded.
+  \item
+        Column names \should be documented in the data release documentation
+        (see Sec.~\ref{sec:dr-documentation} below).
+\end{itemize}
+
+\subsubsection{Input files}
+
+To enable others to reproduce our work on HPC should they wish to,
+a data release \may include the raw input files,
+if they have been retained in a form that reproduces the original work.
+If this is done,
+the release \should also include sufficient documentation
+to allow a competent practitioner to be able to use the input files to reproduce the data.
+
+\subsubsection{Data from HPC}\label{sec:dr-from-hpc}
+
+The TELOS Collaboration's workflow is typically that
+some number of gauge ensembles are generated using an HMC-like algorithm,
+taking significant computational resources
+and generating substantial data.
+Then,
+observables are computed on each configuration in each ensemble,
+still requiring HPC,
+but more modest resources,
+and generating outputs files small enough to process on a workstation.
+These are then transferred off HPC for final statistical analysis.
+
+Given the constraints of storage,
+and to enable analysis workflows to be reproducible,
+our data releases \must
+share the observable results that are the inputs to the statistical analysis.
+This \should be in as close to its native form as possible;
+to date,
+for most of our work,
+this is text-based log files from \program{HiRep} and \program{Grid}.
+Where necessary for filesize reasons,
+these \may be thinned by removing redundant, repeated log lines.
+
+To make the download process simpler for a reader only interested in a specific observable,
+these \may be structured so that
+each observable or class of observable
+is in a separate directory hierarchy.
+
+
+\subsubsection{Repackaged data}
+
+Since it is tedious to write large amounts of code to parse data from log files,
+and the reading process itself is relatively slow,
+if the original output was in a text-based format,
+a data release \should also include the input data to the statistical analysis
+as discussed in Sec.~\ref{sec:dr-from-hpc} above,
+reformatted into a packed format readable by standard libraries.
+
+\begin{itemize}
+  \item
+        The HDF5 format~\cite{hdf5} \should be used for these data.
+  \item
+        A single HDF5 file for all ensembles \should be preferred
+        to one file per ensemble per measurement,
+        to minimize the effort needed to download and use the data.
+  \item
+        Datasets and groups in the HDF5 structure \must be given
+        sufficient metadata to identify the specific ensembles they refer to,
+        and what specific observables were computed and parameters used to do so.
+\end{itemize}
+
+
+
+
+\subsubsection{Metadata and analysis parameters}
+
+As will be discussed in Section~\ref{sec:workflows} below,
+to ensure that others are able to reproduce our work,
+it is vital to share the workflows that are used to analyse our data.
+These workflows will typically rely on knowing information about the data,
+available in a more compact and quickly-readable form than
+looking at the headers of each data file separately,
+and will further rely on information that we choose as part of our analysis.
+For example,
+which ensembles do we consider for a particular analysis,
+or where to we judge the plateau region of an observable to be for each ensemble.
+
+This information is still data,
+so belongs in the data release rather than being hidden mixed into the analysis workflow.
+
+\begin{itemize}
+  \item
+        A data release \should contain one or more files containing metadata,
+        and if appropriate,
+        analysis parameters,
+        for the analysis workflow to use as input.
+  \item
+        Metadata and analysis parameters \must be provided in a plain-text,
+        human-readable format.
+        This \may be a tabular format such as CSV,
+        or a more structured format like YAML\@.
+  \item
+        Metadata and analysis parameters \should be consolidated into as few files as is reasonable,
+        similarly to output numbers discussed in Section~\ref{sec:dr-numbers}.
+  \item
+        The structure of each metadata/parameter file,
+        for example,
+        field or column names,
+        should be documented similarly to those for output numbers
+        discussed in Section~\ref{sec:dr-numbers}.
+  \item
+        Metadata/parameter files \may be prepared using tools;
+        for example,
+        it is more convenient to prepare a large CSV file using a spreadsheet program
+        rather than by hand in a text editor.
+\end{itemize}
+
+
+\subsubsection{Documentation}\label{sec:dr-documentation}
+
+No matter how careful we are to construct our data releases carefully,
+we will not be able to remove all ambiguity while maintaining a usefully compact release.
+As such,
+it is always necessary write documentation to enable others to understand our releases.
+
+The TELOS Collaboration provides data release documentation in a file called \filename{README.md}
+included in the data release.
+
+\begin{itemize}
+  \item
+        A data release \must contain one or more files containing documentation.
+  \item
+        The primary documentation \should have a filename beginning \readme.
+  \item
+        Documentation \must be provided in a plaintext, human-readable format.
+        At time of writing,
+        this \should be Markdown.
+  \item
+        Where multiple documentation files are provided,
+        each \must be cross-referenced from the main \readme.
+  \item
+        The main \readme \must provide the following elements:
+        \begin{itemize}
+          \item
+                Information on the work the data were produced to enable,
+                including a link to the article(s) in which they were presented.
+          \item
+                A listing of the files included in the release,
+                and a description of what each file contains.
+        \end{itemize}
+  \item
+        Where multiple files (or directories) are grouped into archive files,
+        these archives \should contain their own \readme files
+        documenting the data formats used for the files therein.
+        Such files \must be referred to from the main \readme file.
+  \item
+        Descriptions of data formats, columns, etc.,
+        \should be recycled from previous releases where appropriate.
+        (If a release breaks compatibility with the format documented for a previous one,
+        it \should be carefully considered whether this is necessary and justified,
+        and \should be explicitly noted in the documentation.)
+  \item
+        Where single files are included in the data release,
+        their structure \should be documented in the main \readme file.
+  \item
+        Portions of the main \readme file \may be used as
+        the basis of the data release description.
+\end{itemize}
+
+\paragraph{Markdown}
+
+For an introduction on how to write Markdown,
+see for example Ref.~\cite{markdown-guide}.
+For information on including mathematical expressions in Markdown documents,
+see for example Ref.~\cite{github-markdown}.
+
+\subsection{Where and how to publish a data release}\label{sec:publish-data}
+
+\subsubsection{Where to publish}
+
+Data releases \must be published using a platform that provides a persistent identifier
+(preferably a DOI),
+and that commits to maintaining availability of the dataset for an appropriate period.
+
+At time of writing,
+the TELOS Collaboration publishes its data releases using Zenodo~\cite{zenodo}.
+Zenodo provides 50GiB of storage per dataset by default,
+and allows up to 100 files per dataset.
+(Zenodo can exceptionally grant up to 200GiB per dataset on a case-by-case basis.)
+A release \mustnot be split into many Zenodo datasets in order to bypass this limit.
+
+\subsubsection{Obtaining a DOI before data are ready}\label{sec:get-doi}
+
+It is frequently desirable to have a DOI to put into a manuscript
+before the data are ready to be uploaded,
+either to avoid having a ``TODO'' item in the draft,
+or because the data release is not ready at time of sharing a preprint.
+In particular,
+if a preprint is being released in advance of the data release being ready,
+it \should refer to the DOI at which the data will ultimately be made available.
+
+To obtain a DOI from Zenodo before the data are ready:
+
+\begin{itemize}
+  \item
+        Start a new upload in Zenodo.
+  \item
+        Under ``Basic Information'', answer ``No'' to the question
+        ``Do you already have a DOI for this upload?''.
+  \item
+        Select ``Get a DOI now!''
+  \item
+        Note the DOI that is generated,
+        and add it to the references of the manuscript.
+  \item
+        Add a placeholder file
+        (for example, the draft dataset \readme)
+        and an author to the draft release.
+  \item
+        Click ``Save draft''
+\end{itemize}
+
+The saved draft can then be used as the basis for the full release once it is ready,
+and citations to it from the draft or preprint will then be correctly resolved.
+
+\subsubsection{Structuring the release}
+
+Owing to the limitation on the number of files in a release,
+and the lack of directory structure in Zenodo,
+some files must be packaged into archives.
+However,
+to maximise the utility of the release to
+those who may only want a small part of it,
+thought must be given as to what to group together.
+
+\begin{description}
+  \item[The \readme]
+        \must be a separate file.
+  \item[CSV files]
+        \should be uploaded as individual files,
+        such that someone wanting to quote a datum from one of them
+        need not download a lot of irrelevant files.
+  \item[Raw data]
+        \should be packaged into one or more archives.
+        If there are multiple classes of data
+        (for example,
+        HMC logs, gradient flow logs, and correlation function logs),
+        then these \may be packaged separately.
+        Each archive \should produce a \filename{raw\_data} directory,
+        containing a subdirectory for the specific observable,
+        matching the structure expected by the analysis workflow.
+        As discussed above,
+        each archive \should contain its own \readme.
+  \item[Repackaged raw data]
+        \should be uploaded as a single large HDF5 file.
+  \item[Metadata and analysis parameters]
+        \may be packaged into one or more archives,
+        or uploaded as single files,
+        as appropriate.
+  \item[Input files]
+        \should be packaged into one or more archives.
+\end{description}
+
+Where archives are used,
+these \should be ZIP files,
+not \filename{.tar.gz} files,
+since the former can be previewed by Zenodo.
+They \should use a high compression level,
+to reduce the storage and bandwidth requirements,
+in particular for raw data comprising logs,
+which are naturally storage-inefficient.
+
+\subsubsection{Completing the upload form}
+TODO
+
+\subsection{Field configurations}
+
+Field configurations take significant computational resources to generate,
+and contain significantly more information than one person or collaboration can extract.
+As such,
+we aspire to share our field configurations openly,
+to maximise the benefit that can be obtained from them.
+(To this,
+we apply the constraint that
+configurations \shouldnot be retained if the cost of storage outweighs
+the cost of regenerating them given the input parameters.)
+In principle,
+this would also allow data from different collaborations
+to be analysed many of the same systematics,
+rather than comparing data that have been computed and analysed with different approximations.
+
+The International Lattice Data Grid (ILDG)~\cite{ildg-organization}
+defines standards for interoperability and sharing of field configurations.
+We aim to share our configurations using the UK Regional Grid of the ILDG\@.
+Currently this is not in service;
+further information on preparing and pushing configurations to this service
+will be provided once it is available.
+
+In the interim,
+when generating ensembles requiring non-trivial computational effort,
+we \must retain sufficient information that
+the ILDG configuration and ensemble metadata may be completed at a later date.
+This should include:
+
+\begin{itemize}
+  \item
+        The gauge group
+  \item
+        The gauge action, associated parameters (e.g. $\beta$), and boundary conditions
+  \item
+        The fermion actions, associated parameters (e.g.\ bare mass), representations, and boundary conditions
+  \item
+        The algorithm used to perform the generation
+  \item
+        The software (including version information) used to perform the generation
+  \item
+        The precision worked at by the software used to perform the generation
+  \item
+        The name and affiliation of the person who performed the generation
+  \item
+        The date and time at which each configuration was generated
+\end{itemize}
+
+
+\section{Workflows}\label{sec:workflows}
+
+In our data release,
+we share data from various stages of our computation.
+However,
+we must also share how data get from one stage to the other.
+The Royal Society shortly after its founding in 1660
+chose as its motto ``\emph{nullius in verba}''---take nobody's word for it---
+to signify the importance of this.
+It marked a transition to science being based on reproducibility,
+where no result could be accepted until others were able to show it for themselves.
+This laid the foundation for the growth in science over the past centuries.
+
+In principle,
+sharing the data analysis code used to go from input to output data
+is not a necessary condition for reproducibility.
+A sufficiently precise,
+and accurate,
+narrative publication
+could achieve the same result.
+In practice,
+however,
+specifying the level of necessary detail
+and keeping the actual software used synchronised with this
+is beyond the capabilities of most authors;
+in many fields this has led to a ``replication crisis''
+where key findings in a discipline were discovered to be unfounded,
+as the description of the methodology did not match what was actually done,
+due either to human error in the analysis process,
+or imprecise language in the description.
+
+As such,
+we assert that codifying the analysis performed in data and software,
+and publishing both of these openly alongside narrative articles,
+is the \emph{easiest} way to achieve reproducibility of our work.
+Others looking to apply our techniques
+(as they should,
+if we are doing our jobs properly)
+may make use of our code directly,
+or may reimplement based on our descriptions,
+but cross-check against our implementation for any discrepancies.
+
+Working reproducibly has an initial learning curve,
+and requires some more up-front setup than diving straight in to
+fiddling with data and producing plots by hand.
+However,
+it pays substantial dividends as the quantity of data you work with increases,
+the workflows become more complex and interlinked,
+and the number of projects you work on grows.
+
+In this section we will discuss some of the approaches that we adopt.
+This will necessarily be incomplete,
+and our approach is likely to evolve over time,
+as experience shows us better ways of working,
+and new tools and technologies become available.
+
+\subsection{Workflow essentials}
+
+All workflows \must be developed under version control.
+In the TELOS Collaboration we use Git for this purpose;
+if you are unfamiliar with Git,
+good introductory guides include Refs.~\cite{swc-git,chacon2014pro}.
+Workflows under development \should be regularly synchronised with a hosting service,
+to avoid the only copy being on a laptop that may suffer data loss.
+We make use of GitHub for this purpose.
+Workflows \may be developed under the \texttt{telos-collaboration} organisation;
+if not,
+they \must be transferred to this organisation before publishing.
+
+Each workflow repository \must contain the following files at root level:
+
+\begin{itemize}
+  \item A \readme file, for example \filename{README.md},
+  \item A \filename{LICENSE} file, and
+  \item A \filename{CITATION.cff} file.
+\end{itemize}
+
+It \should also contain the following:
+
+\begin{itemize}
+  \item A \filename{.gitignore} file, and
+  \item A \filename{.pre-commit-config.yaml} file.
+\end{itemize}
+
+\subsubsection{\readme}
+
+The \readme of a workflow release \must contain:
+
+\begin{itemize}
+  \item
+        A brief description of the workflow,
+        including a link to the article presenting the workflow's output.
+        This \should be in the form of a DOI\@.
+  \item
+        A list of prerequisite software needed to be able to use the workflow.
+        This is likely to include
+        Conda,
+        Snakemake
+        (which may be installed via Conda),
+        and a LaTeX distribution.
+        This \should note any ``gotchas'' that may trip up a potential user,
+        but \shouldnot give detailed installation instructions
+        that would duplicate the documentation of the software in question.
+  \item
+        Instructions on setting up the workflow.
+        This \should include how to clone the repository,
+        what data to download from the data release,
+        and where to put it.
+  \item
+        Instructions on running the workflow.
+        This \should be a single command,
+        and \must be equivalent to the command that was run
+        to generate the assets presented in the corresponding article.
+        (You \may,
+        for example,
+        changethe parallelisation options to Snakemake is allowed,
+        but \mustnot use an entirely different script.)
+  \item
+        Information on the approximate expected runtime of the workflow,
+        and the machine specification on which this estimate is based.
+        (It is useful for a reader to know in advance
+        whether they will need to allocate
+        minutes,
+        hours,
+        or days
+        to the computation.)
+  \item
+        Information on where the output of the workflow is placed.
+\end{itemize}
+
+Additionally,
+the \readme \should contain:
+
+\begin{itemize}
+  \item
+        The DOI of the workflow;
+        this \may be in the form of a DOI badge.
+        To obtain a DOI from Zenodo prior to releasing it,
+        see the instructions in Section~\ref{sec:get-doi}.
+  \item
+        A discussion of the reusability of the workflow.
+        How much of the workflow is expected to be applicable to other contexts,
+        and what work would be required to do so.
+\end{itemize}
+
+\subsubsection{\filename{LICENSE}}
+
+The \filename{LICENSE} file should contain
+the full text of the license under which the workflow is made available.
+The TELOS Collaboration uses the GNU General Public License~\cite{gpl} by default.
+If there are reasons to prefer another license,
+this \must be discussed with the collaboration before applying it.
+
+\subsubsection{\filename{CITATION.cff}}
+
+To aid tools in generating appropriate citations for our work,
+we provide metadata on the release in the form of a \filename{CITATION.cff} file.
+This is written in the Citation File Format (CFF)~\cite{cff}.
+CFF files may be generated using the \program{cffinit}~\cite{cffinit} tool,
+or may be based on the skeleton example in the resources repository~\cite{resources}.
+If the latter is used,
+elements marked \verb|TODO| \must be replaced,
+and authors' details \must be checked,
+before publiaction.
+
+\subsubsection{\filename{.gitignore}}
+
+The \filename{.gitignore} file is a standard mechanism to tell Git
+what files are
+(typically)
+not wanted to be committed to a repository.
+This \may be based on a template such as that provided by GitHub~\cite{gitignore-python},
+but \should also specify the directories expected to contain
+data downloaded from the data release,
+and files ouptut by the workflow.
+A minimal \filename{.gitignore} file for a workflow matching the description below might be,
+
+\begin{verbatim}
+# Common temporary files
+scratch
+.DS_Store
+.#*
+*#*#
+*~
+*__pycache__
+**.pyc
+**.ipynb_checkpoints
+*.pdf
+cache/
+tmp/
+
+# Input and output data
+.snakemake/
+raw_data/
+intermediary_data/
+data_assets/
+assets/
+metadata/
+!*/.git_keep
+\end{verbatim}
+
+Including data files in the \filename{.gitignore} file early is important,
+because if data files are accidentally committed to the repository,
+then everyone who downloads the repository will need to download them:
+even if a later commit removes the files again,
+they will still be present in the history.
+(It is possible to rewrite history to remove unwanted files,
+but this takes additional work and requires coordination to not reintroduce them.)
+
+\subsubsection{\filename{.pre-commit-config.yaml}}
+
+We aim for our releases to be useful for others,
+and to minimise the work required when we are developing them.
+As such,
+we try to make our code easy to read;
+it is difficult enough to read one's own code
+after a few weeks of not looking at it,
+let alone someone else's.
+To this end,
+we use some basic automated code quality checks,
+to keep the basic formatting of code consistent.
+
+For this,
+we make use of \program{pre-commit}~\cite{pre-commit}.
+When inside a repository,
+with \program{pre-commit} available in the \texttt{\$PATH},
+running the command
+\begin{verbatim}
+pre-commit install
+\end{verbatim}
+adds a hook to the repository that is run when a commit is attempted;
+it reads and runs the checks defined in \filename{.pre-commit-config.yaml},
+and if any checks do not pass,
+the commit is blocked.
+Some checks automatically fix the files such that you can retry the commit quickly;
+other checks may require manual fixes to be made.
+
+A minimal \filename{.pre-commit-config.yaml} for our work might be:
+
+\begin{verbatim}
+default_language_version:
+    python: python3.12
+repos:
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.5.1
+  hooks:
+    - id: ruff
+      # Lint rules suggested by ruff docs, just for starters:
+      args: [--fix]
+    - id: ruff-format
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.6.0
+  hooks:
+    - id: check-yaml
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+    - id: check-toml
+    - id: mixed-line-ending
+- repo: https://github.com/jumanjihouse/pre-commit-hooks
+  rev: 3.0.0
+  hooks:
+    - id: markdownlint
+      files: "content/"
+\end{verbatim}
+
+The versions specified are correct at time of writing,
+but are likely out of date by the time you read this document.
+You \may use \program{pre-commit CI}~\cite{pre-commit-ci} to keep these up to date.
+
+\subsection{Workflow management}
+
+Peforming an analysis in lattice quantum field theory has many moving parts.
+We typically work with many ensembles,
+for each of which we compute many observables.
+We want to combine subsets of each of these in different ways,
+and perform various fits of them.
+Each analysis step takes a different amount of time,
+and depends on others having been previously completed.
+
+As discussed above,
+we require that a single command be able to reproduce the full analysis,
+end to end.
+One way we might start thinking about that is by writing a shell script,
+to run the various tools needed in order.
+We might also consider using a single Python script
+that calls the various functions that we need to run,
+using subprocesses where we use non-Python tools.
+However,
+this comes with some limitations:
+if we want to run multiple steps in parallel
+(as we likely want to,
+as the number of steps grows),
+we need to manually specify how and where to parallelise.
+And if we want to avoid recomputing
+(potentially expensive)
+steps that we have already completed
+and whose inputs have not changed,
+we need to manually perform these checks.
+
+To avoid reinventing the wheel,
+we instead choose to build on the work of others who have already solved these problems.
+A workflow manager is a tool that allows you to specify
+a set of rules for how to compute specific outputs given specific inputs;
+when given a specific target to generate,
+it identifies what steps needs to be performed,
+and performs them.
+A typical workflow manager does this
+by building a directed acyclic graph
+(DAG)
+of the steps;
+this then allows it to parallelise over all steps that do not directly depend on each other.
+
+After a survey of the available options,
+we identified \program{Snakemake}~\cite{molder2021sustainable} as a good fit for our typical needs.
+It has a number of features that are useful to us:
+
+\begin{itemize}
+  \item
+        It can run on one or multiple CPU cores.
+  \item
+        It can manage the software environments needed for running rules using Conda.
+        No manual installation of environments is necessary for a user of the release,
+        beyond installing Snakemake.
+  \item
+        It tracks what outputs it has generated using what inputs,
+        so only re-runs rules when the input data change.
+  \item
+        The syntax for rule definitions is built on top of Python,
+        so is extensible if the standard syntax does not meet our needs
+\end{itemize}
+
+It can also run parts of a workflow on external HPC resources;
+this is not a feature we currently use,
+but may be useful in future.
+
+Currently,
+there are no Snakemake tutorials specific to the lattice context;
+while it is our ambition to change this,
+for the time being,
+we refer to e.g.\ Refs.~\cite{carpentries-snakemake,snakemake-tutorial}.
+
+\subsubsection{Structuring a workflow}
+
+The benefits of a workflow manager discussed above are maximised when
+the structure of the workflow is aligned with the strengths of the workflow manager.
+Put shortly:
+\begin{itemize}
+  \item
+        The scope of each tool
+        (or rule)
+        should be kept as small as possible,
+        with the complexity being encoded as relationships between rules in the workflow definition.
+  \item
+        Parameters should be known to the workflow manager,
+        rather than passing a file containing them.
+  \item
+        Input and output files should be specified as command-line parameters,
+        rather than being hard-coded.
+  \item
+        The workflow should not append to files,
+        only create them afresh.
+        If joining files together is required,
+        that should be its own rule.
+\end{itemize}
+
+To take a concrete example,
+if we have data files for meson correlation functions and gradient flow histories
+at various values of the bare mass $am_{0}$,
+and we wish to plot the masses of the pseudoscalar and vector mesons
+$aM_{\mathrm{PS}}$ and $aM_{\mathrm{V}}$,
+normalised by the gradient flow scale $w_{0}/a$
+as a function of $am_{0}$,
+then the workflow might be structured as the following:
+
+\begin{itemize}
+  \item
+        A preamble,
+        in which the workflow reads a metadata file with information about the ensembles,
+        and in particular the plateau positions for each channel for each ensemble.
+  \item
+        A rule to take one ensemble's gradient flow history,
+        and output bootstrap samples for $w_{0}$ to a file,
+        labeled by an ensemble identifier and the observable name
+        (for example,
+        \texttt{Sp4nF2b6.7mF-0.62T48L32/\hspace{0pt}w0\_samples.json}).
+        This file should also carry metadata and provenance information about the ensemble.
+  \item
+        A rule to take one ensemble's meson correlation function data,
+        and using the plateau position metadata,
+        compute the mass of one mesonic channel $aM_{X}$,
+        outputting bootstrap samples to a file,
+        labeled by an ensemble identifier and the channel name
+        (for example,
+        \texttt{Sp4nF2b6.7mF-0.62T48L32/\hspace{0pt}ps\_mass\_samples.json}).
+
+        This file should also carry metadata and provenance information about the ensemble.
+  \item
+        A rule to take the bootstrap samples for $aM_{X}$ and $w_{0}/a$,
+        and output the dimensionless product $\hat{M}_{X}=w_{0}M_{X}$,
+        to a file labeled by an ensemble identifier and a description of the product
+        (for example,
+        \texttt{Sp4nF2b6.7mF-0.62T48L32/\hspace{0pt}normalised\_ps\_mass\_samples.json}).
+        This file should also carry metadata and provenance information about the ensemble.
+  \item
+        A rule to take any number of files
+        each containing the value of the normalised mass for a single ensemble,
+        and a plot style definition,
+        and output a plot of the normalised mass against the bare fermion mass
+        (the latter obtained from the metadata).
+\end{itemize}
+
+To meet the requirements discussed in Section~\ref{sec:data} above,
+there would also want to be a rule to take all of the various sample files
+and output a CSV that could be included in the data release.
+
+\subsection{Structuring the repository}
+
+We have discussed above the essential files to include in the root directory of the repository.
+Now,
+let's go into more detail about how to structure the remainder of the repository.
+
+\begin{itemize}
+  \item
+        Files relating to the definition of the workflow \should be placed in a \filename{workflow/} directory.
+        The workflow itself \must be placed in \filename{workflow/Snakefile}.
+        Workflows with many rules \should be split into modules;
+        these \should be placed in \filename{workflow/rules/}.
+        Conda environment definitions should be placed in \filename{workflow/envs/}.
+        This structure matches the standard recommendations for Snakemake projects in general.
+  \item
+        Source files \should be placed in a \filename{src/} directory.
+        For projects of any complexity,
+        this \should be structured as a Python package,
+        containing an \filename{\_\_init\_\_.py} file,
+        so that relative imports can be made.
+  \item
+        Definitions of,
+        for example,
+        plot styles \should be placed in a \filename{styles/} directory.
+  \item
+        Libraries that are not available via standard package repositories
+        \should be placed in a \filename{libs/} directory,
+        as discussed below.
+  \item
+        Input data \should be placed in a \filename{raw\_data/} directory.
+        This directory \may contain a \filename{.git\_keep} file
+        so that it is created when the repository is cloned,
+        but all other files in the directory \must be ignored in \filename{.gitignore},
+        to avoid accidentally committing large amounts of data.
+  \item
+        Data that have been quoted from other publications
+        that did not provide a data release
+        (so where numbers had to be transcribed by hand)
+        \should be placed in a \filename{quoted\_data/} directory.
+        They \must include documentation as to their provenance,
+        including attribution to the original authors.
+  \item
+        Files containing metadata and analysis parameters
+        \should be placed in a \filename{metadata/} directory.
+        This directory \may contain a \filename{.git\_keep} file,
+        but all other files in the directory \must be ignored in \filename{.gitignore}.
+  \item
+        Data produced by the workflow but not intended for distribution
+        (for example,
+        the bootstrap sample files discussed above)
+        \should be placed in an \filename{intermediary\_data/} directory.
+        This directory \mustnot contain a \filename{.git\_keep} file,
+        and \must be ignored in \filename{.gitignore}.
+  \item
+        Data produced by the workflow and intended for distribution
+        (for example,
+        CSV files of final numbers to include in the data release)
+        \should be placed in a \filename{data\_assets/} directory.
+        This directory \may contain a \filename{.git\_keep} file,
+        particularly if it is anticipated that users will place files into the directory by hand,
+        but all other files in the directory \must be ignored in \filename{.gitignore},
+        to avoid accidentally committing large amounts of data.
+  \item
+        Outputs generated by the workflow for inclusion in a manuscript
+        (plots, tables, and variable definitions)
+        \should be placed into an \filename{assets/} directory.
+        This directory \may contain a \filename{.git\_keep} file,
+        but all other files in the directory \must be ignored in \filename{.gitignore}.
+        When preparing a manuscript,
+        the directory \should be copied directly into the project;
+        when re-running the workflow,
+        the previous version \should be deleted from the project
+        before the updated version is copied in.
+\end{itemize}
+
+
+\subsubsection{Libraries}
+
+For published libraries,
+it is typically sufficient to allow Conda to install them from standard repositories,
+such as PyPI for Python packages.
+For libraries only made available via GitHub or similar forge services,
+these \mustnot be specified via a GitHub
+(or similar)
+URL,
+for the same reason we do not use GitHub to publish our workflows---GitHub
+does not provide a guarantee of long-term stability.
+
+Instead,
+where libraries are internal and/or sufficiently actively developed that
+they are not available via a package repository,
+these \must be included as Git submodules,
+and installed directly from the local copy.
+We place local copies of libraries in a \filename{libs} directory.
+
+To download a repository as a submodule,
+use the syntax
+\begin{verbatim}
+mkdir -p libs
+cd libs
+git submodule add https://github.com/username/reponame
+\end{verbatim}
+This addition can then be committed to the repository as usual.
+Note that the URL used \must be a publicly-accessible HTTPS address,
+not a private repository or a \texttt{git@github.com:} SSH address.
+
+To clone a repository that includes submodules,
+use
+\begin{verbatim}
+git clone --recurse-submodules git@github.com:telos-collaboration/workflow_name
+\end{verbatim}
+When adding a submodule to a repository for the first time,
+the \readme should be updated to include this instruction in place of
+the plain \texttt{git clone} that may otherwise be present.
+
+To specify a local copy of a library in a Conda environment specification,
+replace the \verb|library_name==0.0.1| or similar specification
+generated by \texttt{conda env export}
+with \verb|../../libs/library_name|.
+
+Note that when GitHub exports a ZIP file of a repository,
+it does not include the contents of any submodules.
+As such,
+we must create our own ZIP files of such repositories when uploading to Zenodo.
+
+\subsection{Assets to generate}
+
+In general,
+the workflow should generate four broad classes of output:
+plots,
+tables,
+definitions,
+and data assets.
+
+When naming files,
+the workflow \mustnot generate files with the same name in different directories.
+This is because arXiv only partially supports subdirectories;
+while it can compile projects with files in subdirectories,
+if two files in different subdirectories have the same name,
+neither is accessible to LaTeX,
+and the compilation fails.
+
+\subsubsection{Plots}
+
+Plot generation is one of the first tasks researchers approach.
+A full deep dive into automated plotting is outside the scope of this document,
+but we will highlight some key points specific to the way that we work.
+
+\begin{itemize}
+  \item
+        Plots \should be produced using Matplotlib,
+        or a tool based on its engine.
+  \item
+        Plots \should read in style information from a common style file,
+        and \shouldnot have excessive cosmetic overrides.
+  \item
+        The workflow \should make it simple to change which plot style file is in use,
+        for example,
+        to switch to using sans-serif fonts and a dark background
+        for presentation slides.
+  \item
+        Plots \should use a standard colour cycle,
+        to maximise accessibility for those with colourblindness.
+  \item
+        Similarly,
+        where possible,
+        plots \should use differing markers in addition to colours.
+        Where necessary,
+        plots \may use markers and colours to differentiate different degrees of freedom.
+  \item
+        Plots \should use the \verb|layout="constrained"| option to \verb|plt.figure|
+        (or to \verb|plt.subplots|)
+        to maximise the use of space.
+  \item
+        Plots \should specify a \verb|figsize|
+        equal to the anticipated size in the final manuscript,
+        so that they may be used in LaTeX without specifying the \verb|\width| option.
+        This ensures that font sizes remain consistent and legible.
+  \item
+        Plots \should be included in LaTeX files using syntax like:
+\begin{verbatim}
+\includegraphics{assets/plots/spectrum}
+\end{verbatim}
+        The \texttt{width=} argument \shouldnot be specified,
+        and should not need to be.
+  \item
+        Axis and other labels on plots \must match the notation used in the main text.
+  \item
+        Where the caption of a figure depends on the specific parameters used to generate it,
+        then a \filename{.tex} file \should also be generated containing the caption.
+        For example,
+        if the workflow generates a plot \filename{spectrum\_beta2.3.pdf},
+        it should also generate a file \filename{spectrum\_beta2.3\_figure.tex},
+        containing something along the lines of
+\begin{verbatim}
+\begin{figure}
+  \includegraphics{assets/plots/spectrum_beta2.3}
+  \caption{\label{fig:spectrum-betatwopointthree}
+  The spectrum of the theory at $\beta=2.3''}
+\end{figure}
+\end{verbatim}
+        In this instance,
+        the figure \should be included in the manuscript using
+\begin{verbatim}
+\input{assets/plots/spectrum_beta2.3_figure.tex}
+\end{verbatim}
+  \item
+        Plots \should be placed in an \filename{assets/plots/} directory.
+\end{itemize}
+
+\subsubsection{Tables}
+
+Tables are frequently constructed by hand,
+or generated using tools but then copied and pasted into a manuscript.
+This manual intervention is error prone,
+and increases the likelihood that the work presented will not be reproducible,
+due to numbers from different iterations of the workflow
+(or other numbers entirely,
+from typographical errors)
+being mixed into the final manuscript.
+
+\begin{itemize}
+  \item
+        There \must be a 1:1 correspondence between tables and \filename{.tex} files generated.
+        That is,
+        each table should be in its own \filename{.tex} file.
+  \item
+        Each table file \must contain the entire table,
+        starting with \verb|\begin{tabular}|
+        (or equivalent)
+        and ending with \verb|\end{tabular}|
+        (or equivalent).
+  \item
+        Where the caption of the table depends on data presented therein,
+        the workflow \should also include the caption in the \filename{.tex} file.
+        The file \should then contain the entire \verb|table| environment,
+        starting with \verb|\begin{table}|
+        and ending with \verb|\end{table}|.
+  \item
+        Table files \must be included in the manuscript using commands along the lines of
+\begin{verbatim}
+\input{assets/tables/spectrum_table.tex}
+\end{verbatim}
+  \item
+        Tables generated by a single workflow
+        \must follow the same formatting conventions,
+        in particular around where to place vertical and horizontal lines.
+        Where possible,
+        this \should be achieved by making use of common functions,
+        allowing style changes to be made by changing a single definition.
+  \item
+        Table definitions \should be preceded by metadata describing them and their provenance.
+        This \must be formatted as LaTeX comments
+        (i.e.\ lines beginning with \verb|%|).
+  \item
+        Tables \should be placed in an \filename{assets/tables/} directory.
+\end{itemize}
+
+\paragraph{How to generate tables programmatically}
+
+For plain tables of numbers without uncertainties,
+Pandas DataFrames have a \verb|styler.to_latex| method to enable this.
+For tables of numbers with uncertainties,
+this method may be used in conjunction with
+the \program{format\_multiple\_errors}~\cite{fme} library.
+Where horizontal lines are needed to break up sections of a table,
+currently this is challenging to achieve with Pandas,
+but a pull request is open that may enable this in future.
+
+\subsubsection{Definitions}
+
+Frequently,
+we want to discuss numerical results in our papers,
+including quoting the numbers themselves.
+Our first temptation may be to write the number in the text manually.
+However,
+if during drafting,
+an additional data point is added that changes a fit result in the second decimal place,
+it is easy for these numbers to become inconsistent with the actual analysis results.
+
+To avoid this,
+our workflows \should output definitions of LaTeX commands
+that may be used in documents as placeholders for the numbers,
+that will then be filled in by the workflow.
+For example,
+our workflow may define a command
+\begin{verbatim}
+\newcommand\PSMassContinuum{0.1234(56)(78)}
+\end{verbatim}
+which would then be used in the text as
+\begin{verbatim}
+We find the mass of the pseudoscalar in the continuum limit to be \PSMassContinuum.
+\end{verbatim}
+which would in turn render in the document as\\
+``We find the mass of the pseudoscalar in the continuum limit to be 0.1234(56)(78).''
+
+\begin{itemize}
+  \item
+        Definitions \should be produced for all numbers presented with uncertainties in a manuscript.
+  \item
+        Where definitions have been produced,
+        they \must be used in place of all instances of the relevant number.
+  \item
+        Definitions \shouldnot force math mode,
+        since in some instances they may be used inside a larger mathematical environment.
+        (They \may use \verb|\ensuremath|.)
+  \item
+        Definition files \must have the \filename{.tex} extension.
+  \item
+        Definition files \should be placed in an \filename{assets/definitions/} directory.
+  \item
+        Each definition file \should begin with metadata describing the definitions and their provenance.
+        This \must be formatted as LaTeX comments
+        (i.e.\ lines beginning with \verb|%|).
+  \item
+        Definition files \must be loaded in the preamble of the manuscript LaTeX document,
+        along the lines
+\begin{verbatim}
+\input{assets/definitions/spectrum_definitions.tex}
+\end{verbatim}
+\end{itemize}
+
+\subsection{Metadata and provenance tracking}
+
+It is useful
+when files are taken outside of their original context
+to be able to identify where they came from.
+A full realisation of this would require implementing something like PROV~\cite{prov};
+this is beyond the scope of our ambitions.
+However,
+retaining a subset of provenance information still has value.
+This may be ``stamped'' as a comment in a file,
+and/or included as an additional file.
+
+\begin{itemize}
+  \item
+        When storing intermediary results,
+        particularly when JSON or similar formats are used,
+        files \should also store structured metadata and provenance information.
+  \item
+        When producing tables and definition files,
+        these \should also include
+        unstructured metadata and provenance information
+        in LaTeX comments.
+  \item
+        When producing figures as PDF files,
+        including provenance information is non-trivial,
+        and is currently considered out of scope.
+        When producing other formats
+        (for example, Scalable Vector Graphics),
+        provenance information \may be included as a comment.
+  \item
+        When producing directories of output
+        (for example, \filename{assets/}),
+        there \should be a machine-readable
+        (for example, JSON)
+        file placed at its root
+        indicating metadata and provenance specific to the workflow run that produced it.
+\end{itemize}
+
+Things to include in a provenance stamp will vary from case to case,
+but \should most likely include:
+
+\begin{itemize}
+  \item
+        A comment warning that the asset was/assets were automatically generated,
+        and should not be directly modified,
+        but instead that the workflow should be re-run.
+        This \should be sorted to appear at the top of the listing.
+  \item
+        The commit ID of the workflow used to generate the asset,
+        and if there were uncommitted changes present.
+  \item
+        The time at which the asset was generated.
+  \item
+        The computer using which the asset was generated.
+  \item
+        The person who ran the workflow.
+        (For example, their username.)
+  \item
+        For assets generated from other data,
+        the files that were used as input.
+  \item
+        Parameters that were used in the generation of the asset.
+\end{itemize}
+
+
+\subsection{Numerical reproducibility}
+
+While in Sec.~\ref{sec:reproducibility} we define reproducibility in black and white,
+there are in fact certain degrees to which data are reproducible.
+They may give compatible results within error bars,
+or may give identical results down to the last bit,
+or something in between.
+
+An analysis workflow \should give bitwise identical output,
+except for differences in headers and other provenance data,
+when run on the same platform,
+with the same parallelisation options.
+It \must give compatible results,
+with differences much smaller\footnote{
+  We deliberately do not explicitly define ``much smaller'' at this time.
+} than the statistical error,
+when re-run,
+including running on other machines or with different parallelisations.
+
+\subsubsection{Randomness}
+
+Analysis workflows frequently make use of randomness.
+In particular,
+bootstrap sampling always uses randomness,
+and for a finite number of bootstrap samples,
+the final numbers obtained will have
+an in principle negligible but noticeable dependence on the choice of random numbers.
+As such,
+we \must fix random seeds before performing a computation with randomness.
+This \must be done separately for each workflow rule;
+since the workflow may execute in any order compatible with the data dependencies,
+different runs may otherwise give different results.
+
+Random seeds \must be different for each ensemble,
+since otherwise correlations are introduced between them.
+In order to avoid hardcoding specific random seeds,
+which may raise questions in the minds of readers of our workflows
+(``Where did that number come from?''
+``Was it chosen to give a specific outcome?''),
+we generate seeds deterministically from input metadata.
+To introduce sufficient entropy into these,
+it is \recommended to use a hash of the ensemble name as the random seed.
+This has the benefit that
+having the same bootstrap samples for different observables is simplified.
+
+An example Python implementation may look like:
+
+\begin{verbatim}
+import hashlib
+import numpy as np
+
+def get_rng(ensemble_name):
+    ensemble_hash = hashlib.md5(ensemble_name.encode("utf8")).digest()
+    seed = abs(int.from_bytes(filename_hash, "big"))
+    return np.random.default_rng(seed)
+\end{verbatim}
+
+This approach will give results that are reproducible to near-machine precision.
+
+
+
+\subsection{Publishing a workflow}
+
+It is not sufficient to link to a GitHub repository from a journal article.
+GitHub provides no guarantees of long-term stability of repositories,
+or even of the addresses to them.
+Instead,
+similarly to data releases,
+we \must publish workflows using a service that provides a persistent identifier,
+and a commitment to long-term availability.
+
+At time of writing,
+the TELOS Collaboration publishes its workflows using Zenodo~\cite{zenodo}.
+
+The procedure for this is largely the same as that used for data releases,
+described in Sec.~\ref{sec:publish-data}.
+Differences for workflow releases are discussed below.
+
+\subsubsection{Preparing an archive}
+
+In principle,
+one may connect GitHub with Zenodo,
+and automatically generate a record from a GitHub Release.
+However,
+as discussed above,
+this does not include the contents of submodules,
+meaning that the archives downloaded from the release would not be usable.
+
+To ensure that all submodules are correctly included in the release,
+we \should clone a fresh copy of the repository,
+and archive it,
+keeping only the working copy,
+i.e. excluding the \filename{.git} directories:
+
+\begin{verbatim}
+mkdir tmp
+cd tmp
+git clone --recurse-submodules git@github.com:telos-collaboration/workflow_name
+zip -9 --exclude "**/.git/*" --exclude "**/.git"  -r workflow_name workflow_name
+\end{verbatim}
+
+One \may instead work from the existing working copy,
+but in this case they \must first strip out all data not in the repository,
+for example using \verb|git clean|.
+Data from the data release \mustnot be included in the workflow release.
+
+\subsubsection{What to include in a release}
+
+The release should include two files:
+
+\begin{itemize}
+  \item
+        The \readme file from the repository,
+        which \should also form the basis of the Zenodo description, and
+  \item
+        The ZIP archive of the repository.
+\end{itemize}
+
+
+
+\section{HPC Software}
+TODO
+
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+\clearpage
+\appendix
+
+\section{Checklist for publishing a journal article}
+
+In this Appendix is a checklist that \should be completed for all publications.
+Underneath each high-level goal
+(circles)
+is a set of tasks that \should be completed before the goal can be completed
+(squares).
+
+\begin{CheckList}{Goal}
+  \Goal{open}{Circulate draft to collaboration}
+  \begin{CheckList}{Task}
+    \Task{open}{DOI for data release obtained and added to draft}
+    \Task{open}{DOI for analysis release obtained and added to draft}
+    \Task{open}{Hand-generated provisional/placeholder plots marked}
+    \Task{open}{Software used is committed to version control}
+    \Task{open}{Software names and versions (e.g.\ commit IDs) are specified}
+    \Task{open}{Rights retention statement is present}
+    \Task{open}{Data availability statement is present}
+  \end{CheckList}
+  \Goal{open}{Publish data release}
+  \begin{CheckList}{Task}
+    \Task{open}{\readme contains data format descriptions for all files}
+    \Task{open}{Raw data are all included}
+    \Task{open}{CSVs are present for all data presented in paper (tabulated or plotted)}
+    \Task{open}{Archives do not contain unwanted files (e.g. operating system metadata files like \filename{.DS\_Store})}
+    \Task{open}{Release cross-checked with analysis workflow by another collaboration member}
+  \end{CheckList}
+  \Goal{open}{Publish analysis workflow}
+  \begin{CheckList}{Task}
+    \Task{open}{\readme includes requirements installation instructions}
+    \Task{open}{\readme includes instructions for getting input data}
+    \Task{open}{\readme includes instructions for running workflow}
+    \Task{open}{\readme notes expected run time of workflow}
+    \Task{open}{
+      No data are hardcoded into code.
+      (Check for any numbers with more than three significant figures.)
+    }
+    \Task{open}{Quoted data carry appropriate attribution}
+    \Task{open}{Software environment is specified in one or more \filename{.yml} files}
+    \Task{open}{Workflow runs end to end from a single command without errors}
+    \Task{open}{
+      Workflow archive does not include any unwanted files
+      (e.g.\ data files, or operating system metadata files like \filename{.DS\_Store})
+    }
+    \Task{open}{Workflow cross-checked with data release by another collaboration member}
+  \end{CheckList}
+  \Goal{open}{Publish pre-print on arXiv}
+  \begin{CheckList}{Task}
+    \Task{open}{\authorxml written and included in source package}
+    \Task{open}{Data release public \emph{(optional)}}
+    \Task{open}{Analysis workflow release public \emph{(optional)}}
+    \Task{open}{Final analysis workflow is committed to version control}
+    \Task{open}{
+      All plots, tables, and quoted numbers generated from workflow.
+      No placeholder markers remain.
+    }
+    \Task{open}{All assets regenerated from a clean workflow run}
+  \end{CheckList}
+  \Goal{open}{Submit manuscript to journal}
+  \begin{CheckList}{Task}
+    \Task{open}{Preprint added to website}
+    \Task{open}{arXiv paper password forwarded to coauthors}
+  \end{CheckList}
+  \Goal{open}{Submit corrected manuscript to journal after implementing referee feedback}
+  \begin{CheckList}{Task}
+    \Goal{open}{
+      If changes have been made to analysis or presentation,
+      all assets regenerated from a clean workflow run.
+    }
+    \Task{open}{Updated analysis workflow is committed to version control}
+  \end{CheckList}
+  \Goal{open}{Proofs are approved with journal, article is published}
+  \begin{CheckList}{Task}
+    \Task{open}{Author Accepted Manuscript uploaded to institutional repository (e.g.\ Cronfa)}
+    \Task{open}{Finalised data release public \emph{(required)}}
+    \Task{open}{Finalised analysis workflow release public \emph{(required)}}
+    \Task{open}{
+      If updated data/workflow releases published,
+      manuscript updated to point to DOI of updated version.
+    }
+  \end{CheckList}
+  \Goal{open}{Publication process finalised}
+  \begin{CheckList}{Task}
+    \Task{open}{Website updated with published article}
+    \Task{open}{Institutional repository (e.g.\ Cronfa) updated with journal details}
+  \end{CheckList}
+\end{CheckList}
+\end{document}
