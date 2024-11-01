@@ -26,7 +26,7 @@
 
 \author{Ed Bennett\\for the TELOS Collaboration}
 
-\date{2024-10-..., version 0.0.1}
+\date{2024-11-01, version 0.0.1}
 
 \begin{document}
 
@@ -367,6 +367,38 @@ two additional files \should be included:
         The file \filename{author.dtd},
         defining the structure that \authorxml follows,
         available from Ref.~\cite{inspire-authorxml}.
+\end{itemize}
+
+\subsection{Acknowledgements}\label{sec:acknowledge}
+
+It bears reminding that our work is enabled by
+the work and contributions of many others outside our collaboration,
+who \must be appropriately acknowledged in our work.
+
+This includes:
+
+\begin{itemize}
+  \item
+        We \must specify what software was used to perform the work,
+        both so that the original authors may gain credit,
+        and so that others know which software to use to reproduce our work.
+        This \may be done in the acknowledgements section,
+        or,
+        for example,
+        in the section of the narrative where the algorithms and tools are introduced.
+  \item
+        We \must specify what computing resources were used to perform the work,
+        to comply with our obligations to the HPC facilities,
+        so that we remain able to access them in the future.
+  \item
+        Where we have used open data,
+        we \must cite the original datasets.
+  \item
+        We \must acknowledge data storage resources where they have been used.
+  \item
+        We \must follow all other standard non-computation-specific acknowledgement practices,
+        including acknowledging our funders,
+        and those who have contributing to the work whilst not being authors.
 \end{itemize}
 
 \section{Data}\label{sec:data}
@@ -732,7 +764,110 @@ in particular for raw data comprising logs,
 which are naturally storage-inefficient.
 
 \subsubsection{Completing the upload form}
-TODO
+
+\paragraph{Files}
+
+The files discussed above \must be uploaded.
+It is \recommended to upload large files one at a time;
+concurrent uploads typically fail,
+and the form needs to be reloaded to delete the failed files and re-upload.
+For large files,
+it is \recommended to use a wired network connection
+with a high-bandwidth uplink to the Internet.
+
+\paragraph{Basic information}
+
+\begin{itemize}
+  \item
+        The DOI \should have been pre-registered per the above.
+  \item
+        The Resource Type \should be ``Dataset'' or ``Workflow''.
+  \item
+        The Title \should be the title of the corresponding article,
+        followed by ``---Data release'' or ``---Analysis workflow''.
+        Where the release supports multiple concurrent articles,
+        the Title \may use both article's titles,
+        separated by ``and''.''
+  \item
+        The Creators \must comprise all authors of the corresponding article(s).
+        Unless otherwise agreed,
+        all authors \should be listed in the role of ``Project member''.
+  \item
+        The Description \should contain a summary of the \readme,
+        linking to the relevant article.
+        For example,
+\begin{verbatim}
+This release contains all data generated in preparing the paper
+"[paper title]" (insert link).
+It includes two classes of data:
+ - Raw data, as generated from the HMC measurement code running on HPC, in their native formats.
+ - Metadata around the analysis of the ensembles, in YAML format.
+Due to their size, raw gauge configurations are not included in this release.
+
+Further documentation on the directory structure and file formats is provided in the file README.md
+\end{verbatim}
+  \item
+        An additional Description \must be added,
+        comprising the Acknowledgements of the relevant paper.
+  \item
+        The License should be specified as the Creative Commons Attribution License.
+\end{itemize}
+
+\paragraph{Recommended information}
+
+This section \may be left blank.
+
+\paragraph{Funding}
+
+Grants from the European Union,
+and from United Kingdom research councils,
+\must be listed here.
+Searching the grant ID surrounded by quotation marks,
+for example,
+\verb|"EP/V052489/1."|,
+typically returns only the grant of interest.
+(Omitting the quotation marks includes many irrelevant results.)
+Grants from other countries \may be listed here also.
+
+\paragraph{Alternative identifiers}
+
+This section \may be left blank.
+
+\paragraph{Related works}
+
+This \should link to:
+\begin{itemize}
+  \item
+        The arXiv preprint,
+        with relation ``is described by''.
+  \item
+        The published article,
+        with relation ``is described by''.
+  \item
+        The data release,
+        with relation ``is required by''.
+\end{itemize}
+
+\paragraph{References}
+
+This section \may be left blank.
+
+\paragraph{Software}
+
+This section \may be left blank.
+
+\paragraph{Publishing information}
+
+This section \may be left blank.
+
+\paragraph{Conference}
+
+This section \may be left blank.
+
+\paragraph{Domain specific fields}
+
+This section \may be left blank.
+
 
 \subsection{Field configurations}
 
@@ -1525,8 +1660,10 @@ which would in turn render in the document as\\
 It is useful
 when files are taken outside of their original context
 to be able to identify where they came from.
-A full realisation of this would require implementing something like PROV~\cite{prov};
-this is beyond the scope of our ambitions.
+A full realisation of this would require implementing something like PROV~\cite{prov},
+as has been done by the authors of Ref.~\cite{Auge:2023vnd};
+this is beyond our current capacity,
+but \should be on our roadmap.
 However,
 retaining a subset of provenance information still has value.
 This may be ``stamped'' as a comment in a file,
@@ -1703,10 +1840,278 @@ The release should include two files:
         The ZIP archive of the repository.
 \end{itemize}
 
+\subsubsection{Differences in the upload form}
+
+\begin{itemize}
+  \item
+        The License \should match the one agreed and specified in the repository.
+  \item
+        In addition to the preprint and published version,
+        the Related works \must refer to the data release,
+        with relation ``requires''.
+  \item
+        The Software section \must include
+        \begin{itemize}
+          \item
+                A link to the GitHub repository under the \verb|telos-collaboration| organisation.
+          \item
+                A listing of the programming languages used,
+                which are likely to minimally include
+                \program{Python} and \program{Snakemake}.
+          \item
+                The Development Status ``Inactive''.
+        \end{itemize}
+\end{itemize}
 
 
 \section{HPC Software}
-TODO
+
+This area has to date received less focus than
+the topics of the preceding sections of this document;
+as such,
+many elements described as ``\should'' are aspirational
+rather than describing current practice.
+
+
+\subsection{Open Source and Community Software}
+
+The TELOS collaboration has benefited greatly from open source and community software for HPC\@.
+We have made extensive use of HiRep~\cite{hirep,DelDebbio:2008zf},
+Grid~\cite{grid,Yamaguchi:2022feu},
+and Hadrons~\cite{hadrons,antonin_portelli_2023_8023716}.
+It is incumbent on us to not only be passive consumers of this software,
+but also to give back in support of its continued development and sustainability.
+
+All publications making use of a piece of software
+\must specify what software was used,
+and what version.
+Where we have made modifications to a piece of software for our use case,
+these modifications \must be publicly available.
+In the absence of this,
+others will not be able to reproduce our work,
+and the software's authors will not be able to correctly judge
+the reach and impact of their work.
+In principle,
+there \should be a Zenodo release of the specific version used,
+to ensure that there is a persistent identifier and long term retention;
+however,
+to date this has not been done due to
+a lack of clarity around appropriate authorship for the resulting Zenodo record.
+
+After making a change to a piece of software,
+the developer \should think carefully about whether
+the change should be fed back to the upstream repository.
+In instances where the change is likely to be an obstruction to others' use cases,
+this should likely not be done,
+but if the change is neutral or positive,
+then minimally,
+the change \should be proposed to the upstream maintainer.
+If the original author is amenable,
+then a pull request
+(or equivalent)
+\should be submitted,
+and appropriate work done in collaboration with the maintainer
+to bring the work to a mergeable state.
+(The change \may also be proposed directly in the form of a pull request.)
+
+Where changes need to be maintained separately,
+we \must retain these changes in a local fork of the repository.
+The number of different local forks of a repository \should be minimised;
+where possible,
+changes \should be merged into a single main branch,
+and where this is impractical,
+versions \should be retained as branches of a single repository.
+
+\subsection{Data formats}
+
+In general,
+software running on HPC \should output data in a format easily ingested by downstream tooling,
+and easily shared in a FAIR way.
+This \may be in addition to text-based logs;
+the logs \should however not be the only data output format.
+
+More specifically,
+\begin{itemize}
+  \item
+        Software generating configurations
+        \should output field configurations in the ILDG binary format~\cite{ildg-binary},
+        and corresponding metadata in the QCDml~\cite{Maynard:2004wg}\footnote{
+        An update to these to support
+        higher representations and gauge groups beyond $\mathrm{SU}(3)$
+        is in preparation at time of writing,
+        but is anticipated to become available very shortly.
+        }.
+        At time of writing,
+        neither Grid nor HiRep is able to do this;
+        HiRep cannot write the ILDG format at all\footnote{
+          The HiRep binary format is compatible with
+          the configuration data portion of the ILDG binary format
+          in some instances.
+        },
+        instead using its own format exclusively,
+        while Grid can write it but does not set relevant metadata correctly.
+  \item
+        Software performing observable computations on configurations
+        \should output the results in HDF5, JSON, or XML format,
+        with sufficient and appropriate metadata to identify the ensemble and computation performed.
+        At time of writing,
+        Hadrons is able to output in HDF5 and XML format,
+        but the specific metadata output are not sufficient for our use case.
+        Grid can in principle output these formats,
+        but the tools we make use of do not do this.
+        HiRep has support for JSON in certain tools in certain forks,
+        but our production version does not support this.
+\end{itemize}
+
+
+\subsection{Workflows}
+
+Historically,
+a typical HPC workflow has involved setting up some or all of:
+
+\begin{itemize}
+  \item
+        Writing or adjusting job scripts and input files individually for each ensemble,
+  \item
+        Manually changing input files after successive jobs,
+  \item
+        Handcrafting \program{awk} scripts at the command line to check progress and acceptance,
+  \item
+        Regularly resubmitting jobs as time limits on running jobs elapse,
+  \item
+        Writing fragile shell scripts to automate one or more aspects of the above,
+  \item
+        Needing to cancel and resubmit jobs due to an error introduced by one of the above.
+\end{itemize}
+
+None of these is desirable;
+they are all a drain on time that could have been spent more productively,
+they are all barriers to reproducibility,
+and they all have the potential to partially or totally invalidate claimed results.
+For example,
+neglecting to switch the \verb|rlx_start| flag from \verb|new| to \verb|continue|
+in \program{HiRep}
+introduces sizeable autocorrelations when running the RHMC algorithm.
+
+To avoid these issues,
+we \should have two additional tools available to us:
+a HMC launcher/monitor
+(tentatively called \program{HEmCee})
+and a job coordinator
+(\program{PlateSpinner}).
+At time of writing,
+neither of these is written;
+we discuss below some requirements to inform their development.
+
+\subsubsection{\program{HEmCee}}
+
+This should:
+
+\begin{itemize}
+  \item
+        Read parameters specifying the ensemble from a file in a standard format
+        (for example, JSON).
+  \item
+        Identify whether configurations already exist matching these parameters,
+        and resume from this if so.
+        Otherwise,
+        start from a cold, warm, or hot configuration as specified.
+  \item
+        Be able to start a new chain by resuming from a checkpoint
+        but re-seeding the random number generator.
+  \item
+        Be able to track acceptance of the algorithm over time,
+        adjust this automatically during a thermalisation period,
+        and raise warnings and refuse to continue if it remains unacceptably low
+        or if it changes outside of the thermalisation period.
+  \item
+        Save provenance and metadata with each configuration,
+        as discussed above.
+        This should make it clear,
+        for example,
+        at what point a secondary chain branched off its parent,
+        and when parameters such as the trajectory length were adjusted.
+  \item
+        Seed the generator deterministically from the ensemble parameters,
+        while still providing sufficient entropy to maintain statistical independence of ensembles.
+  \item
+        Monitor the time taken to complete each trajectory,
+        read the remaining time in a job from the environment,
+        and if there will be insufficient time to complete the next trajectory,
+        checkpoint and quit cleanly instead.
+  \item
+        Based on this,
+        be able to provide an estimate of the notice needed from the scheduler to cleanly quit,
+        and take advantage of shorter allocations by allowing preemption with sufficient notice.
+        Listen for interrupt signals from the scheduler,
+        and checkpoint and cleanly exit after the end of the current trajectory in this case.
+\end{itemize}
+
+Grid's HMC implementation satisfies some but not all of these requirements.
+We anticipate that \program{HEmCee} could be written as a thin wrapper around Grid's HMC class.
+
+\subsubsection{\program{PlateSpinner}}
+
+A difficulty with some HPC systems is that
+HMC is not parallel in Monte Carlo time,
+and so one job in a sequence cannot start before the previous one completes.
+To avoid jobs starting and then needing to immediately abort,
+this ultimately means that successive jobs cannot begin queueing until
+their predecessors complete.
+This means there can be significant downtime between successive jobs in a sequence,
+making it more difficult to obtain the desired statistics in a given time.
+
+However,
+where many ensembles are being generated concurrently,
+at the point where a single HPC job starts,
+it is likely that one of the ensembles is not being actively generated,
+or that there is analysis work on one or more ensembles outstanding.
+To this end,
+we anticipate \program{PlateSpinner} will in its most basic form:
+
+\begin{itemize}
+  \item
+        Be launched at the start of each job on the machine.
+  \item
+        Read a database of target generation workloads,
+        from the \program{HEmCee} input files.
+  \item
+        Identify which of these workloads are already running.
+  \item
+        If there is a workload not already running,
+        which is compatible with the job's resources
+        (i.e. not so large as to run out of memory,
+        or so small as to give very poor parallelisation),
+        start it.
+  \item
+        If all generation workloads are already running,
+        identify analysis workloads that are outstanding,
+        and not already running,
+        and start one of these.
+  \item
+        Repeat the previous step until
+        the anticipated runtime exceeds the remaining time for the job.
+\end{itemize}
+
+In addition to the above,
+our work utilises machines with GPU resources.
+Most such machines also have a non-negligible number of CPU cores available.
+Typically,
+the majority of these cores are not utilised by the GPU workloads.
+Some of our analysis workloads are not able to efficiently utilise GPUs,
+so require CPU resources.
+Tests show that these can be run concurrently on the same nodes as our GPU workloads
+without affecting the performance of the latter.
+This gives significantly better utilisation of the resources,
+both in terms of resource time allocation
+and in terms of total energy utilisation.
+We anticipate that \program{PlateSpinner} may also manage this process.
+
+The requirements for \program{PlateSpinner} are similar to the capabilities of \program{Taxi}~\cite{Ayyar:2018wwf};
+however,
+the latter appears more tightly coupled to HMC generation with
+the specific tooling used by the authors of Ref.~\cite{Ayyar:2018wwf}.
+
 
 
 \bibliographystyle{unsrt}
