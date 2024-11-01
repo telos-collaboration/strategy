@@ -1721,6 +1721,91 @@ but \should most likely include:
         Parameters that were used in the generation of the asset.
 \end{itemize}
 
+\subsection{Standard tools and techniques}
+
+As discussed above,
+we make use of Snakemake for workflow management.
+Since Snakemake invokes rules using shell commands,
+it is relatively simple to coordinate tools written in different languages.
+However,
+increasing the number of languages increases the complexity of reading and understanding the code,
+and of setting up a working environment,
+so where possible,
+workflows \should use a common language,
+and failing that,
+as few languages as possible.
+In most instances,
+new workflow components \should be written in \program{Python}.
+
+Authors of workflows \should reuse existing code where practical,
+rather than rewriting a slightly different version.
+This helps to maintain consistency between equivalent data presented in different publications.
+
+Where there are common elements used in many workflows,
+these \should be grouped into a common library,
+to be imported by each workflow.
+This avoids having duplicate copies of an analysis in different workflows,
+each with slight differences.
+
+Workflows \should aim to be ``DRY''
+(``don't repeat yourself'';
+as opposed to ``WET'',
+``write everything twice'').
+Significant amounts of copy-pasting of blocks of code,
+or entire files,
+\should be avoided;
+instead,
+common functionality \should be abstracted to a single place.
+
+
+\subsubsection{Code review}
+
+Many of the above points require relatively fluency with the language being used,
+and some meditation on aspects of research software engineering.
+There is no substitute for experience and fluency with a language;
+this is gained through experience and feedback.
+
+One way to gain this feedback is through code review.
+Where a workflow is being developed collaboratively by multiple people,
+changes to the workflow \should be developed in branches,
+and then submitted to the main branch as pull requests.
+Feedback should then be given on the content of the pull request
+by another co-author of the workflow.
+Feedback \must be constructive and positive.
+The pull requester and the reviewer \should come to an agreement on
+the course of action to take before merging the pull request,
+and any identified changes \should be completed before the pull request is merged.
+
+Where the workflow is being developed by a single author,
+code review \may instead be done as part of the workflow testing process;
+see Sec.~\ref{sec:testing} below.
+
+\subsubsection{Statistics and fits}
+
+Unless there is a strong reason not to,
+we make use of bootstrap sampling with 200 bootstrap samples in our work.
+We make use of
+\program{lsqfit}~\cite{lsqfit,peter_lepage_2024_12690493}
+and \program{corrfitter}~\cite{corrfitter,peter_lepage_2021_5733391}
+for performing fits of data and correlation functions in our work.
+
+\subsubsection{Continuous Integration}
+
+To reduce the amount of data that collaboration members need to have on their own machine,
+which has grown larger over time,
+and to make it easier to set up a standardised software environment,
+we aim to set up a platform
+that makes use of Data Version Control~\cite{dvc} or similar
+to manage versions of input data for analysis,
+and that integrates with GitHub Actions,
+to automatically run workflows on centralised infrastructure.
+
+Currently this is still in the early planning phases,
+but once ready,
+the output from this system \should be used as
+the authoritative version of assets to include in publications.
+Workflows \should still be tested by other collaboration members to ensure portability and reproducibility.
+
 
 \subsection{Numerical reproducibility}
 
@@ -1781,9 +1866,45 @@ def get_rng(ensemble_name):
 
 This approach will give results that are reproducible to near-machine precision.
 
+\subsubsection{Testing a workflow}\label{sec:testing}
 
+Before a workflow is published,
+it \must be tested by a collaboration member and coauthor other than the one who wrote it.
+It is \recommended that the tester and workflow author use different platforms,
+to identify potential cross-platform issues.
 
-\subsection{Publishing a workflow}
+The tester \must be given access to only the files that will be submitted to Zenodo and arXiv
+(the raw data, metadata and parameters, and output CSVs from the data release,
+the source code archive from the analysis workflow release,
+and the generated assets that will be included in the article).
+In the first instance,
+they \mustnot be supervised or guided during the author during this process.
+They \must run the workflow end-to-end,
+by following the instructions in the workflow \readme,
+and verify that the assets
+(plots, tables, definitions, and CSVs)
+are correctly reproduced.
+
+If difficulties with setting up or running the workflow are encountered,
+the tester \may reach out to the author for assistance,
+and \should provide feedback to the author.
+If the issue is specific to the workflow
+(rather than,
+for example,
+a general difficulty installing Snakemake),
+the author \should update the documentation to give more guidance around the difficult aspect.
+
+If the workflow runs,
+but does not correctly reproduce the output,
+this \must be fed back to the author.
+The author \may work with the tester to identify the cause of the discrepancy,
+and the divergence \must be fixed before the workflow and data are published.
+
+Once the tester is able to run the workflow end to end
+and obtain compatible results with the author's,
+the workflow \may be published.
+
+{Publishing a workflow}
 
 It is not sufficient to link to a GitHub repository from a journal article.
 GitHub provides no guarantees of long-term stability of repositories,
@@ -1795,10 +1916,6 @@ and a commitment to long-term availability.
 
 At time of writing,
 the TELOS Collaboration publishes its workflows using Zenodo~\cite{zenodo}.
-
-The procedure for this is largely the same as that used for data releases,
-described in Sec.~\ref{sec:publish-data}.
-Differences for workflow releases are discussed below.
 
 \subsubsection{Preparing an archive}
 
@@ -1840,7 +1957,11 @@ The release should include two files:
         The ZIP archive of the repository.
 \end{itemize}
 
-\subsubsection{Differences in the upload form}
+\subsubsection{Completing the upload form}
+
+The procedure for this is largely the same as that used for data releases,
+described in Sec.~\ref{sec:publish-data},
+with the following exceptions:
 
 \begin{itemize}
   \item
@@ -2056,7 +2177,7 @@ A difficulty with some HPC systems is that
 HMC is not parallel in Monte Carlo time,
 and so one job in a sequence cannot start before the previous one completes.
 To avoid jobs starting and then needing to immediately abort,
-this ultimately means that successive jobs cannot begin queueing until
+this ultimately means that successive jobs cannot begin queuing until
 their predecessors complete.
 This means there can be significant downtime between successive jobs in a sequence,
 making it more difficult to obtain the desired statistics in a given time.
