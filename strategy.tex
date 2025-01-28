@@ -1,4 +1,9 @@
 \documentclass{article}
+
+\usepackage[sort&compress,numbers]{natbib}
+\bibliographystyle{apsrev4-1}
+\usepackage{doi}
+
 \usepackage{hyperref}
 \usepackage[a4paper, margin=1in]{geometry}
 \usepackage{xspace}
@@ -26,7 +31,7 @@
 
 \author{Ed Bennett\\for the TELOS Collaboration}
 
-\date{2024-11-29, version 0.0.3}
+\date{2025-01-28, version 0.0.4}
 
 \begin{document}
 
@@ -91,6 +96,19 @@ it instead links to additional material to learn more.
 \subsection{Version history}
 
 \begin{description}
+  \item[v0.0.4]
+        Incorporate changes from first internal review.
+        Clarify our lack of legal qualifications,
+        and some other language.
+        Explicitly state that UKRI requires CC BY\@.
+        Recommend a directory structure.
+        Recommend maintaining HDF5 structure consistency.
+        Mention Zenodo command-line uploads.
+        Avoid overfull hboxes.
+        Give an explicit example of code to go in a library.
+        Mention existing provenance tooling.
+        Mention that repositories can continue being used after a Zenodo release.
+        Reformat bibliography to include more links.
   \item[v0.0.3]
         Add making repo public to checklist.
   \item[v0.0.2]
@@ -169,6 +187,15 @@ being tensioned against the costs of opening access to limited resources.
 
 \subsubsection{Copyright and licensing}
 
+\emph{
+  In this section we discuss certain aspects of copyright law.
+  It is worth mentioning explicitly that
+  the authors of this document are not legal professionals,
+  and the descriptions below represent our best understanding of the law
+  as it applies in the jurisdictions in which we work;
+  it is not legal advice.
+}
+
 Under copyright law,
 the default state is that
 when you provide someone with a piece of copyrighted work
@@ -204,6 +231,9 @@ is the Creative Commons Attribution License,
 CC BY~\cite{cc-by}.
 This gives recipients the right to make and distribute copies of a work,
 provided that the original author is clearly attributed.
+This is the license that is mandated by UKRI
+(unless there are strong reasons to choose a different license),
+who fund our research in the United Kingdom.
 
 \paragraph{Software Licenses}
 
@@ -232,7 +262,8 @@ the extent to which this has succeeded is limited.
 
 \subsubsection{Paper stages}
 
-A paper has a number of stages in its preparation process:
+A paper written by this collaboration
+typically has a number of stages in its preparation process:
 
 \begin{description}
   \item[Draft]
@@ -512,6 +543,13 @@ to maximise interoperability with others' work.
         (see Sec.~\ref{sec:dr-documentation} below).
 \end{itemize}
 
+Note that these constraints apply to data files within the data release,
+not to numbers presented in the paper
+(for example,
+in tables).
+For example,
+tables in papers \shouldnot present numbers to machine precision.
+
 \subsubsection{Input files}
 
 To enable others to reproduce our work on HPC should they wish to,
@@ -549,7 +587,18 @@ To make the download process simpler for a reader only interested in a specific 
 these \may be structured so that
 each observable or class of observable
 is in a separate directory hierarchy.
-
+If doing so,
+it is convenient to maintain the same structure for both
+the files on the HPC facility
+and the files used locally for analysis,
+so that the files can be transferred off HPC with minimal reorganisation necessary.
+The following directory structure \may be used:
+\\
+\texttt{\emph{<Gauge Group>}/n\emph{<Flavour 1 representation><Flavour 1 count>}[\_n\emph{<Flavour 2 representation><Flavour 2 count>}]/beta\emph{<beta>}/m\emph{<Flavour 1 representation><Flavour 1 mass>}[\_m\emph{<Flavour 2 representation><Flavour 2 mass>}]/\emph{<NT>}x\emph{<NX>}x\emph{<NY>}x\emph{<NZ>}}\\
+for example,
+for $\mathrm{Sp}(4)$ with fermions in two representations,
+this may become\\
+\texttt{Sp4/nF2\_nAS3/beta7.2/mF-0.72\_mAS-1.14/64x48x48x48}.
 
 \subsubsection{Repackaged data}
 
@@ -571,9 +620,13 @@ reformatted into a packed format readable by standard libraries.
         Datasets and groups in the HDF5 structure \must be given
         sufficient metadata to identify the specific ensembles they refer to,
         and what specific observables were computed and parameters used to do so.
+  \item
+        We are currently working on identifying
+        structures for HDF5 files that enable more efficient compression to be achieved.
+        Until this work completes,
+        the HDF5 file structure \should be consistent with
+        that used for Ref.~\cite{bennett_2024_13819562}.
 \end{itemize}
-
-
 
 
 \subsubsection{Metadata and analysis parameters}
@@ -721,7 +774,7 @@ To obtain a DOI from Zenodo before the data are ready:
         (for example, the draft dataset \readme)
         and an author to the draft release.
   \item
-        Click ``Save draft''
+        Click ``Save draft''.
 \end{itemize}
 
 The saved draft can then be used as the basis for the full release once it is ready,
@@ -785,6 +838,12 @@ and the form needs to be reloaded to delete the failed files and re-upload.
 For large files,
 it is \recommended to use a wired network connection
 with a high-bandwidth uplink to the Internet.
+For very large files,
+the web interface may struggle to complete an upload even with a high-bandwidth uplink.
+In this case,
+it is \recommended to use command-line tools to upload these files,
+such as \verb|zenodo-upload|~\cite{zenodo-upload}.
+
 
 \paragraph{Basic information}
 
@@ -811,17 +870,20 @@ with a high-bandwidth uplink to the Internet.
 This release contains all data generated in preparing the paper
 "[paper title]" (insert link).
 It includes two classes of data:
- - Raw data, as generated from the HMC measurement code running on HPC, in their native formats.
+ - Raw data, as generated from the HMC measurement code running on HPC,
+   in their native formats.
  - Metadata around the analysis of the ensembles, in YAML format.
 Due to their size, raw gauge configurations are not included in this release.
 
-Further documentation on the directory structure and file formats is provided in the file README.md
+Further documentation on the directory structure and file formats is provided
+in the file README.md
 \end{verbatim}
   \item
         An additional Description \must be added,
         comprising the Acknowledgements of the relevant paper.
   \item
-        The License should be specified as the Creative Commons Attribution License.
+        The License should be specified as the Creative Commons Attribution License
+        (CC BY).
 \end{itemize}
 
 \paragraph{Recommended information}
@@ -855,7 +917,7 @@ This \should link to:
         The published article,
         with relation ``is described by''.
   \item
-        The data release,
+        The analysis workflow release,
         with relation ``is required by''.
 \end{itemize}
 
@@ -1732,6 +1794,11 @@ but \should most likely include:
         Parameters that were used in the generation of the asset.
 \end{itemize}
 
+Basic provenance tracking for many of these,
+and annotation of output assets with them,
+is implemented in Ref.~\cite{bennett_2024_13819431};
+this \may be reused rather than reimplementing the functionality from scratch.
+
 \subsection{Standard tools and techniques}
 
 As discussed above,
@@ -1757,6 +1824,13 @@ these \should be grouped into a common library,
 to be imported by each workflow.
 This avoids having duplicate copies of an analysis in different workflows,
 each with slight differences.
+For example,
+rather than each workflow definings its own method of
+solving the Generalised Eigenvalue Problem
+(or worse,
+different parts of the same workflow but written by different collaborators
+having different implementations),
+there \should be a common library for the aspects that are common across applications.
 
 Workflows \should aim to be ``DRY''
 (``don't repeat yourself'';
@@ -1794,7 +1868,13 @@ see Sec.~\ref{sec:testing} below.
 \subsubsection{Statistics and fits}
 
 Unless there is a strong reason not to,
-we make use of bootstrap sampling with 200 bootstrap samples in our work.
+we make use of bootstrap sampling
+to obtain bias-free uncertainty estimates in our work.
+(In the majority of our work to date,
+we have used 200 bootstrap samples for each analysis.
+However,
+as we begin performing higher-precision computations with more statistics,
+it might be beneficial to use higher numbers of bootstrap samples.)
 We make use of
 \program{lsqfit}~\cite{lsqfit,peter_lepage_2024_12690493}
 and \program{corrfitter}~\cite{corrfitter,peter_lepage_2021_5733391}
@@ -1883,6 +1963,9 @@ Before a workflow is published,
 it \must be tested by a collaboration member and coauthor other than the one who wrote it.
 It is \recommended that the tester and workflow author use different platforms,
 to identify potential cross-platform issues.
+For example,
+if the author used macOS to develop the workflow,
+it is \recommended for the tester to use GNU/Linux.
 
 The tester \must be given access to only the files that will be submitted to Zenodo and arXiv
 (the raw data, metadata and parameters, and output CSVs from the data release,
@@ -1915,7 +1998,7 @@ Once the tester is able to run the workflow end to end
 and obtain compatible results with the author's,
 the workflow \may be published.
 
-{Publishing a workflow}
+\subsubsection{Publishing a workflow}
 
 It is not sufficient to link to a GitHub repository from a journal article.
 GitHub provides no guarantees of long-term stability of repositories,
@@ -1927,6 +2010,19 @@ and a commitment to long-term availability.
 
 At time of writing,
 the TELOS Collaboration publishes its workflows using Zenodo~\cite{zenodo}.
+
+After a release has been published,
+the repository \may still be used for ongoing work.
+For example,
+if a referee requests changes requiring modifications to the analysis workflow,
+these \must be made in the same repository.
+These changes \must be released on Zenodo,
+as a new version of the same record as above,
+before the paper is published.
+If work continues on a direct followup paper,
+the new paper's analysis \should be a direct continuation of the original's,
+in the same repository,
+and \should be published as a new version of the same record.
 
 \subsubsection{Preparing an archive}
 
@@ -2246,8 +2342,8 @@ the specific tooling used by the authors of Ref.~\cite{Ayyar:2018wwf}.
 
 
 
-\bibliographystyle{unsrt}
-\bibliography{references}
+\nocite{apsrev41Control}
+\bibliography{references,revtex-custom}
 
 \clearpage
 \appendix
