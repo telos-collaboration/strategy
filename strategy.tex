@@ -31,7 +31,7 @@
 
 \author{Ed Bennett\\for the TELOS Collaboration}
 
-\date{2025-01-28, version 0.0.4}
+\date{2025-02-10, version 0.0.5}
 
 \begin{document}
 
@@ -46,6 +46,12 @@
   and how we plan to achieve this.
   This is intended to work both as a statement of policy,
   and a guide to practice for those beginning to work with us.
+  Some details and recommendations are specific to
+  the context in which the Collaboration works
+  (such as references to requirements imposed by funders in the United Kingdom);
+  however,
+  most recommendations may serve as a template for
+  other collaborations looking to make their own work reproducible.
   Full tutorials on every aspect of reproducibility is
   beyond the scope of this document,
   but we refer to other resources for further information in these cases.
@@ -87,16 +93,69 @@ is the optimal way to overcome these.
 This document is in part a statement of the way we currently work,
 in part an indication of the way we intend to work moving forward,
 and in part a guide to how to do this.
+Where it makes recommendations or imposes requirements,
+these are to and on work being performed by the TELOS Collaboration;
+however,
+it is our hope that others will draw inspiration from these guidelines
+and choose to adopt similar ones for their own work.
 For space reasons,
 it cannot be a complete guide to every aspect of this process;
 it instead links to additional material to learn more.
 
+We welcome suggestions of improvements to the processes we discuss here,
+although we do not commit to adopt every good suggestion we receive.
+
 \tableofcontents
+
+\subsection{How to read this document}
+
+The remainder of this document is structured as follows:
+in Section~\ref{sec:definitions},
+we define a number of relevant terms we will rely on throughout the discussion.
+In Section~\ref{sec:publications} we discuss open-access publications,
+and some other details of the publication process.
+In Section~\ref{sec:data} we discuss how and why we publish our data.
+In Section~\ref{sec:workflows} we discuss our approach to developing and sharing
+the workflows used to analyse those data.
+In Section~\ref{sec:hpc-software} we outline our aspirations to
+better enable reproducibility of our HPC-based computations.
+Appendix~\ref{app:checklist} is provided for reference,
+and also as a summary of the main requirements discussed in the main body.
+
+This document contains relatively densely-packed information,
+and many of the concepts discussed are tightly linked to each other.
+It is ordered to give a relatively logical progression;
+however,
+the reasoning behind the recommendations in some sections
+may make more sense in the context of having read later ones.
+As such,
+the interested lattice-oriented reader is invited to first skim-read the document
+from Section~\ref{sec:definitions} to Section~\ref{sec:hpc-software},
+before going back and re-reading these sections in more detail.
+
+While the primary focus of the guidance is
+numerical research using lattice quantum field theory techniques;
+we briefly discuss the applicability of the guidance to other related fields
+in Appendix~\ref{app:nonlattice}.
+An interested non-lattice reader might then read Section~\ref{sec:definitions},
+then Appendix~\ref{app:nonlattice},
+and then the sections outlined in Appendix~\ref{app:nonlattice}.
 
 \subsection{Version history}
 
 \begin{description}
-  \item[v0.0.4]
+  \item[v0.0.5 2025-02-10]
+        Add dates to version history.
+        Make more explicit statement around who the document is for.
+        Add reference to template repository for workflows.
+        Add appendix discussing applications outside lattice.
+        Mention how to validate against the schema,
+        and require this.
+        Mention software and data availability statements.
+        Correct subsubsections on testing and publishing to being subsections.
+        Add reading guide.
+        Fix some typos.
+  \item[v0.0.4 2025-01-28]
         Incorporate changes from first internal review.
         Clarify our lack of legal qualifications,
         and some other language.
@@ -109,15 +168,15 @@ it instead links to additional material to learn more.
         Mention existing provenance tooling.
         Mention that repositories can continue being used after a Zenodo release.
         Reformat bibliography to include more links.
-  \item[v0.0.3]
+  \item[v0.0.3 2024-11-29]
         Add making repo public to checklist.
-  \item[v0.0.2]
+  \item[v0.0.2 2024-11-01]
         Initial quasi-complete draft.
-  \item[v0.0.1]
+  \item[v0.0.1 2024-10-31]
         Initial internal draft.
 \end{description}
 
-\subsection{Definitions}
+\subsection{Definitions}\label{sec:definitions}
 
 \subsubsection{Reproducibility}\label{sec:reproducibility}
 
@@ -326,6 +385,7 @@ in this document are to be interpreted as described in RFC 2119~\cite{rfc2119}.
 
 
 \section{Publications}
+\label{sec:publications}
 
 \subsection{Open Access}
 
@@ -360,6 +420,9 @@ all papers submitted by the TELOS collaboration
   to any Author Accepted Manuscript version arising.
 \end{quote}
 
+This \should be placed in a paragraph titled
+``Open Access Statement''
+immediately after the Acknowledgments section.
 Publishers sometimes remove this statement on publication;
 this does not affect the process.
 
@@ -407,11 +470,14 @@ two additional files \should be included:
         prepared as described above.
   \item
         The file \filename{author.dtd},
-        defining the structure that \authorxml follows,
+        a schema defining the structure that \authorxml follows,
         available from Ref.~\cite{inspire-authorxml}.
 \end{itemize}
 
-\subsection{Acknowledgements}\label{sec:acknowledge}
+The file \authorxml \must be validated for correctness against the schema,
+by following the instructions in the documentation at Ref.~\cite{inspire-authorxml}.
+
+\subsection{Acknowledgments}\label{sec:acknowledge}
 
 It bears reminding that our work is enabled by
 the work and contributions of many others outside our collaboration,
@@ -424,9 +490,10 @@ This includes:
         We \must specify what software was used to perform the work,
         both so that the original authors may gain credit,
         and so that others know which software to use to reproduce our work.
-        This \may be done in the acknowledgements section,
-        or,
-        for example,
+        This \must be done in the Software Availability statement,
+        discussed in Sec.~\ref{sec:statements}.
+        Additionally,
+        this \may be done
         in the section of the narrative where the algorithms and tools are introduced.
   \item
         We \must specify what computing resources were used to perform the work,
@@ -438,9 +505,39 @@ This includes:
   \item
         We \must acknowledge data storage resources where they have been used.
   \item
-        We \must follow all other standard non-computation-specific acknowledgement practices,
+        We \must follow all other standard non-computation-specific acknowledgment practices,
         including acknowledging our funders,
         and those who have contributing to the work whilst not being authors.
+\end{itemize}
+
+\subsection{Additional statements}
+\label{sec:statements}
+
+It might be difficult to fluidly incorporate
+full information around some of the points discussed above into the main text,
+or such information might accidentally be removed during editing,
+or a reader might not easily find it when they look for it.
+To be maximally explicit,
+a paper \must include the following two paragraphs,
+after the Open Access Statement:
+
+\begin{itemize}
+  \item
+        A paragraph titled ``Software Availability Statement'',
+        listing and citing all relevant software used,
+        including version information,
+        and a brief description of what each was used for.
+        This \must include both software used for data generation on HPC,
+        and software used for subsequent data analysis
+  \item
+        A paragraph titled ``Data Availability Statement'',
+        listing and citing all datasets used.
+        This \must include both open data used
+        (both our previous work,
+        and the work of others),
+        and new data generated for this work
+        (which \must be published,
+        as discussed in Section~\ref{sec:data}).
 \end{itemize}
 
 \section{Data}\label{sec:data}
@@ -733,7 +830,7 @@ see for example Ref.~\cite{github-markdown}.
 
 \subsection{Where and how to publish a data release}\label{sec:publish-data}
 
-\subsubsection{Where to publish}
+\subsubsection{Where to publish}\label{sec:where}
 
 Data releases \must be published using a platform that provides a persistent identifier
 (preferably a DOI),
@@ -827,7 +924,7 @@ to reduce the storage and bandwidth requirements,
 in particular for raw data comprising logs,
 which are naturally storage-inefficient.
 
-\subsubsection{Completing the upload form}
+\subsubsection{Completing the upload form}\label{sec:upload-form}
 
 \paragraph{Files}
 
@@ -851,10 +948,10 @@ such as \verb|zenodo-upload|~\cite{zenodo-upload}.
   \item
         The DOI \should have been pre-registered per the above.
   \item
-        The Resource Type \should be ``Dataset'' or ``Workflow''.
+        The Resource Type \should be ``Dataset''.
   \item
         The Title \should be the title of the corresponding article,
-        followed by ``---Data release'' or ``---Analysis workflow''.
+        followed by ``---Data release''.
         Where the release supports multiple concurrent articles,
         the Title \may use both article's titles,
         separated by ``and''.''
@@ -880,7 +977,7 @@ in the file README.md
 \end{verbatim}
   \item
         An additional Description \must be added,
-        comprising the Acknowledgements of the relevant paper.
+        comprising the Acknowledgments of the relevant paper.
   \item
         The License should be specified as the Creative Commons Attribution License
         (CC BY).
@@ -1048,6 +1145,7 @@ as experience shows us better ways of working,
 and new tools and technologies become available.
 
 \subsection{Workflow essentials}
+\label{sec:wf-essentials}
 
 All workflows \must be developed under version control.
 In the TELOS Collaboration we use Git for this purpose;
@@ -1406,7 +1504,7 @@ To meet the requirements discussed in Section~\ref{sec:data} above,
 there would also want to be a rule to take all of the various sample files
 and output a CSV that could be included in the data release.
 
-\subsection{Structuring the repository}
+\subsection{Structuring the repository}\label{sec:repository-structure}
 
 We have discussed above the essential files to include in the root directory of the repository.
 Now,
@@ -1481,6 +1579,9 @@ let's go into more detail about how to structure the remainder of the repository
         before the updated version is copied in.
 \end{itemize}
 
+A template repository with this structure,
+including templates for the required files listed in Section~\ref{sec:wf-essentials},
+is provided at Ref.~\cite{workflow-template}.
 
 \subsubsection{Libraries}
 
@@ -1531,7 +1632,7 @@ it does not include the contents of any submodules.
 As such,
 we must create our own ZIP files of such repositories when uploading to Zenodo.
 
-\subsection{Assets to generate}
+\subsection{Assets to generate}\label{sec:assets}
 
 In general,
 the workflow should generate four broad classes of output:
@@ -1825,7 +1926,7 @@ to be imported by each workflow.
 This avoids having duplicate copies of an analysis in different workflows,
 each with slight differences.
 For example,
-rather than each workflow definings its own method of
+rather than each workflow defining its own method of
 solving the Generalised Eigenvalue Problem
 (or worse,
 different parts of the same workflow but written by different collaborators
@@ -1843,7 +1944,7 @@ instead,
 common functionality \should be abstracted to a single place.
 
 
-\subsubsection{Code review}
+\subsubsection{Code review}\label{sec:code-review}
 
 Many of the above points require relatively fluency with the language being used,
 and some meditation on aspects of research software engineering.
@@ -1898,7 +1999,7 @@ the authoritative version of assets to include in publications.
 Workflows \should still be tested by other collaboration members to ensure portability and reproducibility.
 
 
-\subsection{Numerical reproducibility}
+\subsection{Numerical reproducibility}\label{sec:numerical-repro}
 
 While in Sec.~\ref{sec:reproducibility} we define reproducibility in black and white,
 there are in fact certain degrees to which data are reproducible.
@@ -1957,7 +2058,7 @@ def get_rng(ensemble_name):
 
 This approach will give results that are reproducible to near-machine precision.
 
-\subsubsection{Testing a workflow}\label{sec:testing}
+\subsection{Testing a workflow}\label{sec:testing}
 
 Before a workflow is published,
 it \must be tested by a collaboration member and coauthor other than the one who wrote it.
@@ -1998,7 +2099,7 @@ Once the tester is able to run the workflow end to end
 and obtain compatible results with the author's,
 the workflow \may be published.
 
-\subsubsection{Publishing a workflow}
+\subsection{Publishing a workflow}
 
 It is not sufficient to link to a GitHub repository from a journal article.
 GitHub provides no guarantees of long-term stability of repositories,
@@ -2072,6 +2173,11 @@ with the following exceptions:
 
 \begin{itemize}
   \item
+        The Resource Type \should be ``Workflow''.
+  \item
+        The Title \should be the title of the corresponding article,
+        followed by ``---Workflow''.
+  \item
         The License \should match the one agreed and specified in the repository.
   \item
         In addition to the preprint and published version,
@@ -2092,7 +2198,7 @@ with the following exceptions:
 \end{itemize}
 
 
-\section{HPC Software}
+\section{HPC Software}\label{sec:hpc-software}
 
 This area has to date received less focus than
 the topics of the preceding sections of this document;
@@ -2348,7 +2454,7 @@ the specific tooling used by the authors of Ref.~\cite{Ayyar:2018wwf}.
 \clearpage
 \appendix
 
-\section{Checklist for publishing a journal article}
+\section{Checklist for publishing a journal article}\label{app:checklist}
 
 In this Appendix is a checklist that \should be completed for all publications.
 Underneath each high-level goal
@@ -2397,7 +2503,7 @@ is a set of tasks that \should be completed before the goal can be completed
   \end{CheckList}
   \Goal{open}{Publish pre-print on arXiv}
   \begin{CheckList}{Task}
-    \Task{open}{\authorxml written and included in source package}
+    \Task{open}{\authorxml written, validated against schema, and included in source package}
     \Task{open}{Data release public \emph{(optional)}}
     \Task{open}{Analysis workflow release public \emph{(optional)}}
     \Task{open}{Final analysis workflow is committed to version control}
@@ -2436,4 +2542,92 @@ is a set of tasks that \should be completed before the goal can be completed
     \Task{open}{Institutional repository (e.g.\ Cronfa) updated with journal details}
   \end{CheckList}
 \end{CheckList}
+
+\section{Applying these techniques outside of lattice}\label{app:nonlattice}
+
+The guidance in this document has been written
+with the context of lattice quantum field theory in mind,
+as well as the specific requirements and capabilities of the TELOS Collaboration.
+For other contexts,
+there is a wide range of advice available;
+for example,
+The Turing Way~\cite{the_turing_way_community_2023_7625728} provides
+tools and techniques applicable across much of data science and research software,
+while OpenML~\cite{OpenML2013}
+provides tooling and resources for open research using machine learning techniques.
+
+That said,
+there is a subset of the advice presented here that may be summarised
+to form a minimal set of principles applicable,
+for example,
+in work in theoretical physics not on the lattice.
+
+\subsection{Publications}
+
+Aside from mentions of high-performance computing which may not be relevant,
+all of the discussion of Section~\ref{sec:publications} applies more widely.
+If work is not funded by UKRI,
+then details of requirements for open access \must be checked with funders,
+to ensure that any rights retention statements are valid.
+
+\subsection{Data}
+
+If a publication generates new data,
+these data \must be released openly, citably, and in machine-readable form.
+``Data'' in this context includes:
+\begin{itemize}
+  \item One or more numbers with error bars,
+  \item One or more points plotted on a graph,
+  \item Numbers needing a data table to display in a paper, and
+  \item Coefficients in equations with more than a handful of terms.
+\end{itemize}
+As a rule of thumb,
+if numbers would be useful for others,
+and taking it from the text of the paper would be laborious
+or result in loss of precision,
+then it is data and should be released.
+
+The guidance in Sections~\ref{sec:dr-numbers} and~\ref{sec:dr-documentation}
+may be useful in planning how to format these data for release.
+It is worth thinking carefully about how to combine related data
+to minimise the number of separate files that a reader must work with;
+this may differ from the native representations you currently use.
+
+Sections~\ref{sec:where},~\ref{sec:get-doi}, and~\ref{sec:upload-form}
+provide details on where and how to upload data such that it is citable,
+and remains accessible long-term.
+
+\subsection{Workflows}
+
+As discussed in Section~\ref{sec:workflows},
+to fully ensure reproducibility,
+sharing the full software workflow to go from input data to output data is needed.
+However,
+in some cases that is not possible,
+perhaps because a software tool was shared by a colleague not co-authoring the work,
+and without permission to redistribute.
+
+In this case,
+one may consider sharing only the components of the workflow that one controls.
+The absolute minimum would be the tools required to translate
+from the data shared in the data release
+to the outputs in the publication
+(plots, tables, etc.,
+as discussed in Section~\ref{sec:assets});
+this allows a reader to better understand the data formats,
+and to verify that the data do indeed give the presented results.
+If shared in this way,
+it likely makes more sense to include this as a part of the data release,
+rather than releasing a separate workflow,
+as the workflow only makes sense in the context of the data it was written against.
+
+In either case,
+in addition to Section~\ref{sec:assets},
+Sections~\ref{sec:code-review},~\ref{sec:numerical-repro}, and~\ref{sec:testing}
+may contain useful information.
+For those working with \textsc{Python},
+and to a lesser extend most open languages,
+Sections~\ref{sec:wf-essentials}--\ref{sec:repository-structure} may be of interest
+when planning new work.
+
 \end{document}
