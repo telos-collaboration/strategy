@@ -22,8 +22,8 @@
 \newcommand\optional{\rfcword{optional}}
 
 \newcommand\filename[1]{\texttt{#1}\xspace}
-\newcommand\readme{\filename{README}\xspace}
-\newcommand\authorxml{\filename{author.xml}\xspace}
+\newcommand\readme{\filename{README}}
+\newcommand\authorxml{\filename{author.xml}}
 \newcommand\program[1]{\textsc{#1}\xspace}
 
 
@@ -31,7 +31,7 @@
 
 \author{Ed Bennett\\for the TELOS Collaboration}
 
-\date{2025-02-10, version 0.0.5}
+\date{2025-03-25, version 0.0.6}
 
 \begin{document}
 
@@ -144,6 +144,8 @@ and then the sections outlined in Appendix~\ref{app:nonlattice}.
 \subsection{Version history}
 
 \begin{description}
+  \item[v0.0.6 2025-03-25]
+        Make Appendix B less roundabout.
   \item[v0.0.5 2025-02-10]
         Add dates to version history.
         Make more explicit statement around who the document is for.
@@ -1358,7 +1360,7 @@ The versions specified are correct at time of writing,
 but are likely out of date by the time you read this document.
 You \may use \program{pre-commit CI}~\cite{pre-commit-ci} to keep these up to date.
 
-\subsection{Workflow management}
+\subsection{Workflow management}\label{sec:wf-manager}
 
 Performing an analysis in lattice quantum field theory has many moving parts.
 We typically work with many ensembles,
@@ -2562,14 +2564,6 @@ to form a minimal set of principles applicable,
 for example,
 in work in theoretical physics not on the lattice.
 
-\subsection{Publications}
-
-Aside from mentions of high-performance computing which may not be relevant,
-all of the discussion of Section~\ref{sec:publications} applies more widely.
-If work is not funded by UKRI,
-then details of requirements for open access \must be checked with funders,
-to ensure that any rights retention statements are valid.
-
 \subsection{Data}
 
 If a publication generates new data,
@@ -2585,49 +2579,110 @@ As a rule of thumb,
 if numbers would be useful for others,
 and taking it from the text of the paper would be laborious
 or result in loss of precision,
-then it is data and should be released.
+then it is data and \must be released.
 
-The guidance in Sections~\ref{sec:dr-numbers} and~\ref{sec:dr-documentation}
-may be useful in planning how to format these data for release.
+These numbers \must be shared in CSV format,
+unless there is a strong reason to do otherwise.
 It is worth thinking carefully about how to combine related data
 to minimise the number of separate files that a reader must work with;
 this may differ from the native representations you currently use.
+Where a metadata schema is available,
+this \must be followed to ensure interoperability and reusability;
+regardless,
+a common format for data between publications \should be aimed for.
+The guidance in Section~\ref{sec:dr-numbers} provides more detail on this.
 
-Sections~\ref{sec:where},~\ref{sec:get-doi}, and~\ref{sec:upload-form}
-provide details on where and how to upload data such that it is citable,
-and remains accessible long-term.
+The data release \must also include documentation
+so that the data consumer is able to make use of it.
+A plain-text, human-readable
+(for example, Markdown)
+\readme file \should be designed as the first
+(and potentially only)
+place a reader looks.
+The \readme \must provide at least a link to the paper presenting the data,
+and a listing describing the contents of each file in the release.
+It \must either describe or link to documentation describing
+the data formats of the other files in the release.
+Section~\ref{sec:dr-documentation} discusses in more detail how to approach this.
+
+The data release \must be published in a repository that commits to long-term availability
+and that offers a persistent identifier,
+such as Zenodo~\cite{zenodo},
+which by default allows 50GiB and 100 files per dataset.
+One \may obtain a DOI from Zenodo to include in a manuscript
+in advance of publishing the data;
+details on this are in Section~\ref{sec:get-doi}.
+Section~\ref{sec:upload-form} provides
+a brief guide to completing the Zenodo upload form for lattice data.
 
 \subsection{Workflows}
 
-As discussed in Section~\ref{sec:workflows},
-to fully ensure reproducibility,
-sharing the full software workflow to go from input data to output data is needed.
-However,
-in some cases that is not possible,
-perhaps because a software tool was shared by a colleague not co-authoring the work,
-and without permission to redistribute.
-
-In this case,
-one may consider sharing only the components of the workflow that one controls.
-The absolute minimum would be the tools required to translate
+A first step in the direction of open workflows
+is to share the tools required to translate
 from the data shared in the data release
 to the outputs in the publication
 (plots, tables, etc.,
 as discussed in Section~\ref{sec:assets});
 this allows a reader to better understand the data formats,
-and to verify that the data do indeed give the presented results.
+and to at least verify that the data do indeed give the presented results.
 If shared in this way,
 it likely makes more sense to include this as a part of the data release,
 rather than releasing a separate workflow,
 as the workflow only makes sense in the context of the data it was written against.
 
-In either case,
-in addition to Section~\ref{sec:assets},
-Sections~\ref{sec:code-review},~\ref{sec:numerical-repro}, and~\ref{sec:testing}
-may contain useful information.
-For those working with \textsc{Python},
-and to a lesser extend most open languages,
-Sections~\ref{sec:wf-essentials}--\ref{sec:repository-structure} may be of interest
-when planning new work.
+However,
+as discussed in Section~\ref{sec:workflows},
+to fully ensure reproducibility,
+sharing the full software workflow to go from input data to output data is needed.
+This is something always worth striving for,
+even if sometimes one falls short,
+for example,
+due to not having permission to publish
+one or more tools that were shared privately by a colleague.
+
+When it is possible to share the full workflow,
+this \should give bitwise identical results
+(aside from differences in metadata around,
+for example,
+when the run was executed)
+when re-run on the same platform with the same parallelisation options,
+and \must give compatible results when re-run anywhere.
+(See Section~\ref{sec:numerical-repro} for additional detail.)
+Before it is published,
+it \must be tested end to end from a fresh start;
+this \should be done by a co-author who did not perform the original analysis.
+More details on how to approach this are in Section~\ref{sec:testing}.
+
+More generally,
+those working on workflows \should review the work of others
+and have their work reviewed in turn,
+as discussed in Section~\ref{sec:code-review},
+to enable the spread of good practice.
+When planning new work,
+it is \recommended to adopt version control and good practices for repository structure
+(discussed in Sections~\ref{sec:wf-essentials} and~\ref{sec:repository-structure}),
+and to consider utilising a workflow manager
+(see Section~\ref{sec:wf-manager}),
+to handle the flow of data between different tools,
+without needing to reinvent the wheel.
+
+\subsection{Publications}
+
+Aside from mentions of high-performance computing which may not be relevant,
+all of the discussion of Section~\ref{sec:publications} applies more widely.
+Specifically,
+all narrative work \should be released under a Creative Commons license;
+rights retention statements \may be used to ensure that this is permitted.
+If work is not funded by UKRI,
+then details of requirements for open access \must be checked with funders,
+to ensure that any rights retention statements are valid.
+An \authorxml file \may be used
+to assist in providing metadata to indexing services like INSPIRE\@.
+Software,
+computing resources,
+open data,
+and data storage resources \must be acknowledged,
+in addition to funders and those who have provided useful discussions
+Software and Data Availability Statements \must be added after the acknowledgements.
 
 \end{document}
