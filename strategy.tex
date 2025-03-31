@@ -1,13 +1,21 @@
 \documentclass{article}
 
+\usepackage{hyperref}
 \usepackage[sort&compress,numbers]{natbib}
 \bibliographystyle{apsrev4-1}
-\usepackage{doi}
 
-\usepackage{hyperref}
+\usepackage[
+    type={CC},
+    modifier={by},
+    version={4.0},
+]{doclicense}
+
+\usepackage{doi}
 \usepackage[a4paper, margin=1in]{geometry}
 \usepackage{xspace}
 \usepackage{typed-checklist}
+\usepackage{orcidlink}
+
 
 \newcommand\rfcword[1]{\emph{#1}\xspace}
 \newcommand\must{\rfcword{must}}
@@ -26,12 +34,27 @@
 \newcommand\authorxml{\filename{author.xml}}
 \newcommand\program[1]{\textsc{#1}\xspace}
 
+\newcommand{\orcidauthorBENNETT}{0000-0002-1678-6701}
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
 
 \title{The TELOS Collaboration Approach to Reproducibility and Open Science}
 
-\author{Ed Bennett\\for the TELOS Collaboration}
+\author{
+  Ed Bennett\,\orcidlink{\orcidauthorBENNETT} \\
+  \href{mailto:e.j.bennett@swansea.ac.uk}{\texttt{e.j.bennett@swansea.ac.uk}} \\
+  {\small Swansea Academy of Advanced Computing, Swansea University, Fabian Way, Swansea, United Kingdom}
+  \\\\
+  \href{https://telos-collaboration.github.io}{for the TELOS Collaboration} \vspace{4pt} \\
+  \href{https://telos-collaboration.github.io}{\includegraphics[width=2cm]{telos-logo-blue}}
+}
 
-\date{2025-03-25, version 0.0.6}
+\date{2025-04-02, version 0.1.0}
 
 \begin{document}
 
@@ -52,9 +75,10 @@
   however,
   most recommendations may serve as a template for
   other collaborations looking to make their own work reproducible.
-  Full tutorials on every aspect of reproducibility is
+  Full tutorials on every aspect of reproducibility are
   beyond the scope of this document,
   but we refer to other resources for further information in these cases.
+\blfootnote{\doclicenseThis}
 }
 
 \makeatletter
@@ -102,7 +126,16 @@ For space reasons,
 it cannot be a complete guide to every aspect of this process;
 it instead links to additional material to learn more.
 
-We welcome suggestions of improvements to the processes we discuss here,
+If you find the recommendations presented here useful in your work,
+we would ask that you cite them in publications that have relied on them.
+If you wish to adapt this document for your own context,
+you may do so compatibly with the Creative Commons Attribution License,
+for example,
+by including a citation back to this document.
+
+We welcome constructive suggestions for how we can improve our practice,
+for tools that may help us to achieve our objectives more easily,
+and for how this document could be made clearer and more helpful,
 although we do not commit to adopt every good suggestion we receive.
 
 \tableofcontents
@@ -143,7 +176,25 @@ and then the sections outlined in Appendix~\ref{app:nonlattice}.
 
 \subsection{Version history}
 
+These guidelines are intended as a living document,
+evolving as our practice develops
+and as we progress on achieving
+some of the aims that are currently aspirational or works in progress.
+The canonical working version of the document
+is available from GitHub~\cite{this-github};
+more significant updates
+will also be posted to the arXiv and to Zenodo~\cite{this-zenodo}.
+
 \begin{description}
+  \item[v0.1.0 2025-04-02]
+        First version shared publicly via arXiv and Zenodo.
+        Describe version history.
+        Tidy up front matter.
+        Make license explicit.
+        Add Acknowledgments and other end matter.
+        Expand Introduction.
+        Rename \program{HEmCee} to \program{hmcdj}.
+        Fix some typos.
   \item[v0.0.6 2025-03-25]
         Make Appendix B less roundabout.
   \item[v0.0.5 2025-02-10]
@@ -2332,14 +2383,14 @@ introduces sizeable autocorrelations when running the RHMC algorithm.
 To avoid these issues,
 we \should have two additional tools available to us:
 a HMC launcher/monitor
-(tentatively called \program{HEmCee})
+(tentatively called \program{hmcdj})
 and a job coordinator
 (\program{PlateSpinner}).
 At time of writing,
 neither of these is written;
 we discuss below some requirements to inform their development.
 
-\subsubsection{\program{HEmCee}}
+\subsubsection{\program{hmcdj}}
 
 This should:
 
@@ -2384,7 +2435,7 @@ This should:
 \end{itemize}
 
 Grid's HMC implementation satisfies some but not all of these requirements.
-We anticipate that \program{HEmCee} could be written as a thin wrapper around Grid's HMC class.
+We anticipate that \program{hmcdj} could be written as a thin wrapper around Grid's HMC class.
 
 \subsubsection{\program{PlateSpinner}}
 
@@ -2410,7 +2461,7 @@ we anticipate \program{PlateSpinner} will in its most basic form:
         Be launched at the start of each job on the machine.
   \item
         Read a database of target generation workloads,
-        from the \program{HEmCee} input files.
+        from the \program{hmcdj} input files.
   \item
         Identify which of these workloads are already running.
   \item
@@ -2447,6 +2498,31 @@ The requirements for \program{PlateSpinner} are similar to the capabilities of \
 however,
 the latter appears more tightly coupled to HMC generation with
 the specific tooling used by the authors of Ref.~\cite{Ayyar:2018wwf}.
+
+
+\section{Acknowledgements}
+
+The author is grateful for the support of all members of the TELOS Collaboration
+in formulating and adopting these guidelines.
+
+This work has been funded by the
+UKRI Science and Technologies Facilities Council (STFC)
+Research Software Engineering Fellowship EP/V052489/1,
+by STFC under Consolidated Grant No. ST/X000648/1,
+by the ExaTEPP project EP/X017168/1,
+and by
+the project to form a Collaborative Computational Project
+in Theoretical and Experimental Particle Physics
+(CCP-TEPP).
+
+\paragraph*{Open access statement}
+For the purpose of open access,
+the authors have
+applied a Creative Commons Attribution (CC BY) licence
+to any Author Accepted Manuscript version arising.
+
+\paragraph*{Research Data Access Statement}
+No new data or software were produced in preparation or in support of this work.
 
 
 
@@ -2683,6 +2759,6 @@ computing resources,
 open data,
 and data storage resources \must be acknowledged,
 in addition to funders and those who have provided useful discussions
-Software and Data Availability Statements \must be added after the acknowledgements.
+Software and Data Availability Statements \must be added after the acknowledgments.
 
 \end{document}
