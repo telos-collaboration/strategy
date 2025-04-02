@@ -54,14 +54,15 @@
   \href{https://telos-collaboration.github.io}{\includegraphics[width=2cm]{telos-logo-blue}}
 }
 
-\date{2025-04-02, version 0.1.0}
+\date{2025-04-02, version 0.1.1}
 
 \begin{document}
 
 \maketitle
 
 \abstract{
-  The TELOS Collaboration is committed to producing and analysing data reproducibly,
+  The TELOS Collaboration is committed to
+  producing and analysing lattice data reproducibly,
   and sharing its research openly.
   In this document,
   we set out the ways that we make this happen,
@@ -77,7 +78,7 @@
   other collaborations looking to make their own work reproducible.
   Full tutorials on every aspect of reproducibility are
   beyond the scope of this document,
-  but we refer to other resources for further information in these cases.
+  but we refer to other resources for further information.
 \blfootnote{\doclicenseThis}
 }
 
@@ -114,6 +115,8 @@ we believe that maximising the amount of our work that we share,
 and the ability of others to access and build on top of it,
 is the optimal way to overcome these.
 
+The TELOS Collaboration~\cite{telos} undertakes
+Theoretical Explorations on the Lattice with Orthogonal and Symplectic Groups.
 This document is in part a statement of the way we currently work,
 in part an indication of the way we intend to work moving forward,
 and in part a guide to how to do this.
@@ -186,6 +189,17 @@ more significant updates
 will also be posted to the arXiv and to Zenodo~\cite{this-zenodo}.
 
 \begin{description}
+  \item[v0.1.1 2025-04-02]
+        Explain briefly what the TELOS collaboration is and does.
+        Clarify what to do if a journal says no to the rights retention statement.
+        Clarify some phrasing.
+        Avoid using words reserved in Section~\ref{sec:keywords}
+        outside of those definitions.
+        Make Data and Software availability statements comply with this guidance.
+        Recommend \verb|---Analysis workflow| rather than \verb|---Workflow|
+        for workflow names,
+        consistent with existing work.
+        Software availability statement in checklist.
   \item[v0.1.0 2025-04-02]
         First version shared publicly via arXiv and Zenodo.
         Describe version history.
@@ -331,7 +345,7 @@ To avoid each person having to write their own forms of permission
 certain organisations have defined standard ``copyright licenses''
 that may be applied to a piece of work
 to grant others specific permissions regarding what they can do with it
-and what constraints they must comply with to benefit from these permissions.
+and what constraints they have to comply with to benefit from these permissions.
 
 \paragraph{Creative Commons}
 
@@ -353,7 +367,7 @@ Creative Commons licenses are not considered
 suitable for licensing software source code,
 due to concerns around software-specific issues such as patents.
 Instead,
-specific software licenses should be used.
+it is better to use specific software licenses.
 Two common ones are the MIT License~\cite{mit},
 which grants rights similar to those granted by CC BY,
 and the GNU General Public License~\cite{gpl},
@@ -368,7 +382,7 @@ GPL-licensed software is less used in this context,
 due to organisations not wanting to share their proprietary software
 and potentially give assistance to their competitors.
 The aim of GPL is that
-anyone should be free to modify and improve the software on their own devices;
+anyone is free to modify and improve the software on their own devices;
 however,
 the extent to which this has succeeded is limited.
 
@@ -421,6 +435,7 @@ and can also be generated for data and code assets.
 
 
 \subsubsection{Keywords}
+\label{sec:keywords}
 
 The key words
 ``\must'',
@@ -465,7 +480,7 @@ so that they can be shared under an open license.
 
 To enable this,
 all papers submitted by the TELOS collaboration
-\must include the following text in the submitted manuscript:
+\must include the following text verbatim in the submitted manuscript:
 
 \begin{quote}
   For the purpose of open access,
@@ -473,11 +488,17 @@ all papers submitted by the TELOS collaboration
   to any Author Accepted Manuscript version arising.
 \end{quote}
 
+This is referred to as ``rights retention'',
+and is a requirement from our funders UKRI\@.
 This \should be placed in a paragraph titled
 ``Open Access Statement''
 immediately after the Acknowledgments section.
 Publishers sometimes remove this statement on publication;
 this does not affect the process.
+If a publisher requires retraction of this statement for the paper to be processed,
+or otherwise attempts to block sharing of the Author Accepted Manuscript,
+the publication process \mustnot continue
+before the issue is raised and discussed with UKRI\@.
 
 We \must also upload either a CC BY licensed Author Accepted Manuscript,
 or a CC BY licensed Version of Record,
@@ -490,7 +511,7 @@ the Author Accepted Manuscript \must be uploaded in that case.
 \subsection{\authorxml}
 
 When the INSPIRE database service ingests papers from arXiv,
-it typically must take the plain-text author list
+it typically has to take the plain-text author list
 and parse it into a structured collection of references to known or new authors.
 This process is error-prone,
 particularly for larger collaborations,
@@ -499,12 +520,13 @@ and for individuals whose names collide with common words associated with author
 ``Ed'' is both a name
 and an abbreviation that may be placed in front of a name
 to indicate that the latter's owner is an ``editor''.
-This means that people with the former name frequently have their names abbreviated on INSPIRE.)
+This means that people with the former name frequently have their names
+incorrectly recorded on INSPIRE.)
 
 To avoid needing to manually send corrections to INSPIRE after each publication,
 INSPIRE recommends providing
 a structured, machine-readable set of metadata regarding authorship of a paper.
-This should be done in the form of a file named \authorxml,
+This \should be done in the form of a file named \authorxml,
 having a structure described in Ref.~\cite{inspire-authorxml}.
 
 A template for this file is available in the TELOS Collaboration Resources repository~\cite{resources}.
@@ -541,7 +563,7 @@ This includes:
 \begin{itemize}
   \item
         We \must specify what software was used to perform the work,
-        both so that the original authors may gain credit,
+        both so that the original authors can gain credit,
         and so that others know which software to use to reproduce our work.
         This \must be done in the Software Availability statement,
         discussed in Sec.~\ref{sec:statements}.
@@ -596,7 +618,7 @@ after the Open Access Statement:
 \section{Data}\label{sec:data}
 
 The work that we present in publications can represent
-the output of hundreds of thousands of pounds' of computer time,
+the output of hundreds of thousands of pounds' worth of computer time,
 and terawatt hours of energy.
 To ensure that this is not wasted,
 and so that others can reproduce our work
@@ -605,7 +627,7 @@ without needing to spend similar resources to regenerate the data,
 it is vital that we share our data openly.
 This also enable those quoting our data to do so easily
 without needing to transcribe numbers,
-which may introduce errors.
+which is liable to introduce errors.
 
 Every peer-reviewed article that presents new data
 \must have an associated data release,
@@ -645,7 +667,7 @@ data releases \must include all numbers that are plotted as points on a graph,
 and \should include all parameters for curves fitted using lattice data
 where these are of use to others.
 These \must be provided in CSV format,
-to maximise ease of use to those who may only be familiar with spreadsheet software.
+to maximise ease of use to those who might only be familiar with spreadsheet software.
 The number of different CSV files \should be minimised:
 data that are characterised by the same parameters
 \should be combined into a single file.
@@ -698,11 +720,11 @@ not to numbers presented in the paper
 (for example,
 in tables).
 For example,
-tables in papers \shouldnot present numbers to machine precision.
+tables in papers \shouldnot present numbers to machine precision in almost all cases.
 
 \subsubsection{Input files}
 
-To enable others to reproduce our work on HPC should they wish to,
+To enable others to reproduce our work on HPC if they wish to,
 a data release \may include the raw input files,
 if they have been retained in a form that reproduces the original work.
 If this is done,
@@ -747,7 +769,7 @@ The following directory structure \may be used:
 \texttt{\emph{<Gauge Group>}/n\emph{<Flavour 1 representation><Flavour 1 count>}[\_n\emph{<Flavour 2 representation><Flavour 2 count>}]/beta\emph{<beta>}/m\emph{<Flavour 1 representation><Flavour 1 mass>}[\_m\emph{<Flavour 2 representation><Flavour 2 mass>}]/\emph{<NT>}x\emph{<NX>}x\emph{<NY>}x\emph{<NZ>}}\\
 for example,
 for $\mathrm{Sp}(4)$ with fermions in two representations,
-this may become\\
+this might become\\
 \texttt{Sp4/nF2\_nAS3/beta7.2/mF-0.72\_mAS-1.14/64x48x48x48}.
 
 \subsubsection{Repackaged data}
@@ -813,7 +835,7 @@ so belongs in the data release rather than being hidden mixed into the analysis 
         The structure of each metadata/parameter file,
         for example,
         field or column names,
-        should be documented similarly to those for output numbers
+        \should be documented similarly to those for output numbers
         discussed in Section~\ref{sec:dr-numbers}.
   \item
         Metadata/parameter files \may be prepared using tools;
@@ -934,11 +956,11 @@ and citations to it from the draft or preprint will then be correctly resolved.
 
 Owing to the limitation on the number of files in a release,
 and the lack of directory structure in Zenodo,
-some files must be packaged into archives.
+some files need to be packaged into archives.
 However,
 to maximise the utility of the release to
-those who may only want a small part of it,
-thought must be given as to what to group together.
+those who might only want a small part of it,
+thought is needed as to what to group together.
 
 \begin{description}
   \item[The \readme]
@@ -989,7 +1011,7 @@ For large files,
 it is \recommended to use a wired network connection
 with a high-bandwidth uplink to the Internet.
 For very large files,
-the web interface may struggle to complete an upload even with a high-bandwidth uplink.
+the web interface can struggle to complete an upload even with a high-bandwidth uplink.
 In this case,
 it is \recommended to use command-line tools to upload these files,
 such as \verb|zenodo-upload|~\cite{zenodo-upload}.
@@ -1032,7 +1054,7 @@ in the file README.md
         An additional Description \must be added,
         comprising the Acknowledgments of the relevant paper.
   \item
-        The License should be specified as the Creative Commons Attribution License
+        The License \should be specified as the Creative Commons Attribution License
         (CC BY).
 \end{itemize}
 
@@ -1047,9 +1069,9 @@ and from United Kingdom research councils,
 \must be listed here.
 Searching the grant ID surrounded by quotation marks,
 for example,
-\verb|"EP/V052489/1."|,
+\verb|"EP/V052489/1"|,
 typically returns only the grant of interest.
-(Omitting the quotation marks includes many irrelevant results.)
+(Omitting the quotation marks results in Zenodo including many irrelevant results.)
 Grants from other countries \may be listed here also.
 
 \paragraph{Alternative identifiers}
@@ -1118,8 +1140,8 @@ will be provided once it is available.
 In the interim,
 when generating ensembles requiring non-trivial computational effort,
 we \must retain sufficient information that
-the ILDG configuration and ensemble metadata may be completed at a later date.
-This should include:
+the ILDG configuration and ensemble metadata \may be completed at a later date.
+This \should include:
 
 \begin{itemize}
   \item
@@ -1146,7 +1168,7 @@ This should include:
 In our data release,
 we share data from various stages of our computation.
 However,
-we must also share how data get from one stage to the other.
+we \must also share how data get from one stage to the other.
 The Royal Society shortly after its founding in 1660
 chose as its motto ``\emph{nullius in verba}''---take nobody's word for it---
 to signify the importance of this.
@@ -1177,10 +1199,10 @@ we assert that codifying the analysis performed in data and software,
 and publishing both of these openly alongside narrative articles,
 is the \emph{easiest} way to achieve reproducibility of our work.
 Others looking to apply our techniques
-(as they should,
+(as we would hope they would,
 if we are doing our jobs properly)
-may make use of our code directly,
-or may reimplement based on our descriptions,
+can make use of our code directly,
+or can reimplement based on our descriptions,
 but cross-check against our implementation for any discrepancies.
 
 Working reproducibly has an initial learning curve,
@@ -1205,7 +1227,7 @@ In the TELOS Collaboration we use Git for this purpose;
 if you are unfamiliar with Git,
 good introductory guides include Refs.~\cite{swc-git,chacon2014pro}.
 Workflows under development \should be regularly synchronised with a hosting service,
-to avoid the only copy being on a laptop that may suffer data loss.
+to avoid the only copy being on a laptop that might suffer data loss.
 We make use of GitHub for this purpose.
 Workflows \may be developed under the \texttt{telos-collaboration} organisation;
 if not,
@@ -1240,9 +1262,9 @@ The \readme of a workflow release \must contain:
         This is likely to include
         Conda,
         Snakemake
-        (which may be installed via Conda),
+        (which \may be installed via Conda),
         and a LaTeX distribution.
-        This \should note any ``gotchas'' that may trip up a potential user,
+        This \should note any ``gotchas'' that might trip up a potential user,
         but \shouldnot give detailed installation instructions
         that would duplicate the documentation of the software in question.
   \item
@@ -1284,12 +1306,12 @@ the \readme \should contain:
   \item
         A discussion of the reusability of the workflow.
         How much of the workflow is expected to be applicable to other contexts,
-        and what work would be required to do so.
+        and what work would be needed to do so.
 \end{itemize}
 
 \subsubsection{\filename{LICENSE}}
 
-The \filename{LICENSE} file should contain
+The \filename{LICENSE} file \should contain
 the full text of the license under which the workflow is made available.
 The TELOS Collaboration uses the GNU General Public License~\cite{gpl} by default.
 If there are reasons to prefer another license,
@@ -1300,8 +1322,8 @@ this \must be discussed with the collaboration before applying it.
 To aid tools in generating appropriate citations for our work,
 we provide metadata on the release in the form of a \filename{CITATION.cff} file.
 This is written in the Citation File Format (CFF)~\cite{cff}.
-CFF files may be generated using the \program{cffinit}~\cite{cffinit} tool,
-or may be based on the skeleton example in the resources repository~\cite{resources}.
+CFF files \may be generated using the \program{cffinit}~\cite{cff-init} tool,
+or \may be based on the skeleton example in the resources repository~\cite{resources}.
 If the latter is used,
 elements marked \verb|TODO| \must be replaced,
 and authors' details \must be checked,
@@ -1343,7 +1365,9 @@ metadata/
 !*/.git_keep
 \end{verbatim}
 
-Including data files in the \filename{.gitignore} file early is important,
+Including data files in the \filename{.gitignore} file early in the development process,
+even before starting to test the workflow with data,
+is important,
 because if data files are accidentally committed to the repository,
 then everyone who downloads the repository will need to download them:
 even if a later commit removes the files again,
@@ -1354,7 +1378,7 @@ but this takes additional work and requires coordination to not reintroduce them
 \subsubsection{\filename{.pre-commit-config.yaml}}
 
 We aim for our releases to be useful for others,
-and to minimise the work required when we are developing them.
+and to minimise the work needed when we are developing them.
 As such,
 we try to make our code easy to read;
 it is difficult enough to read one's own code
@@ -1377,7 +1401,7 @@ it reads and runs the checks defined in \filename{.pre-commit-config.yaml},
 and if any checks do not pass,
 the commit is blocked.
 Some checks automatically fix the files such that you can retry the commit quickly;
-other checks may require manual fixes to be made.
+other checks might require manual fixes to be made.
 
 A minimal \filename{.pre-commit-config.yaml} for our work might be:
 
@@ -1475,7 +1499,7 @@ It has a number of features that are useful to us:
 
 It can also run parts of a workflow on external HPC resources;
 this is not a feature we currently use,
-but may be useful in future.
+but might be useful in future.
 
 Currently,
 there are no Snakemake tutorials specific to the lattice context;
@@ -1492,19 +1516,19 @@ Put shortly:
   \item
         The scope of each tool
         (or rule)
-        should be kept as small as possible,
+        \should be kept as small as possible,
         with the complexity being encoded as relationships between rules in the workflow definition.
   \item
-        Parameters should be known to the workflow manager,
+        Parameters \should be known to the workflow manager,
         rather than passing a file containing them.
   \item
-        Input and output files should be specified as command-line parameters,
+        Input and output files \should be specified as command-line parameters,
         rather than being hard-coded.
   \item
-        The workflow should not append to files,
+        The workflow \shouldnot append to files,
         only create them afresh.
-        If joining files together is required,
-        that should be its own rule.
+        If joining files together is needed,
+        that \should be its own rule.
 \end{itemize}
 
 To take a concrete example,
@@ -1523,11 +1547,12 @@ then the workflow might be structured as the following:
         and in particular the plateau positions for each channel for each ensemble.
   \item
         A rule to take one ensemble's gradient flow history,
-        and output bootstrap samples for $w_{0}$ to a file,
+        and output bootstrap samples for $w_{0}/a$ to a file,
         labelled by an ensemble identifier and the observable name
         (for example,
         \texttt{Sp4nF2b6.7mF-0.62T48L32/\hspace{0pt}w0\_samples.json}).
-        This file should also carry metadata and provenance information about the ensemble.
+        This file \should also carry
+        metadata and provenance information about the ensemble.
   \item
         A rule to take one ensemble's meson correlation function data,
         and using the plateau position metadata,
@@ -1537,14 +1562,16 @@ then the workflow might be structured as the following:
         (for example,
         \texttt{Sp4nF2b6.7mF-0.62T48L32/\hspace{0pt}ps\_mass\_samples.json}).
 
-        This file should also carry metadata and provenance information about the ensemble.
+        This file \should also carry
+        metadata and provenance information about the ensemble.
   \item
         A rule to take the bootstrap samples for $aM_{X}$ and $w_{0}/a$,
         and output the dimensionless product $\hat{M}_{X}=w_{0}M_{X}$,
         to a file labelled by an ensemble identifier and a description of the product
         (for example,
         \texttt{Sp4nF2b6.7mF-0.62T48L32/\hspace{0pt}normalised\_ps\_mass\_samples.json}).
-        This file should also carry metadata and provenance information about the ensemble.
+        This file \should also carry
+        metadata and provenance information about the ensemble.
   \item
         A rule to take any number of files
         each containing the value of the normalised mass for a single ensemble,
@@ -1569,7 +1596,7 @@ let's go into more detail about how to structure the remainder of the repository
         The workflow itself \must be placed in \filename{workflow/Snakefile}.
         Workflows with many rules \should be split into modules;
         these \should be placed in \filename{workflow/rules/}.
-        Conda environment definitions should be placed in \filename{workflow/envs/}.
+        Conda environment definitions \should be placed in \filename{workflow/envs/}.
         This structure matches the standard recommendations for Snakemake projects in general.
   \item
         Source files \should be placed in a \filename{src/} directory.
@@ -1633,7 +1660,7 @@ let's go into more detail about how to structure the remainder of the repository
 \end{itemize}
 
 A template repository with this structure,
-including templates for the required files listed in Section~\ref{sec:wf-essentials},
+including templates for the \required files listed in Section~\ref{sec:wf-essentials},
 is provided at Ref.~\cite{workflow-template}.
 
 \subsubsection{Libraries}
@@ -1672,8 +1699,8 @@ use
 git clone --recurse-submodules git@github.com:telos-collaboration/workflow_name
 \end{verbatim}
 When adding a submodule to a repository for the first time,
-the \readme should be updated to include this instruction in place of
-the plain \texttt{git clone} that may otherwise be present.
+the \readme \should be updated to include this instruction in place of
+the plain \texttt{git clone} that would otherwise be present.
 
 To specify a local copy of a library in a Conda environment specification,
 replace the \verb|library_name==0.0.1| or similar specification
@@ -1683,12 +1710,12 @@ with \verb|../../libs/library_name|.
 Note that when GitHub exports a ZIP file of a repository,
 it does not include the contents of any submodules.
 As such,
-we must create our own ZIP files of such repositories when uploading to Zenodo.
+we \must create our own ZIP files of such repositories when uploading to Zenodo.
 
 \subsection{Assets to generate}\label{sec:assets}
 
 In general,
-the workflow should generate four broad classes of output:
+the workflow \should generate four broad classes of output:
 plots,
 tables,
 definitions,
@@ -1704,7 +1731,7 @@ and the compilation fails.
 
 \subsubsection{Plots}
 
-Plot generation is one of the first tasks researchers approach.
+Plot generation is one of the first tasks researchers approach automating.
 A full deep dive into automated plotting is outside the scope of this document,
 but we will highlight some key points specific to the way that we work.
 
@@ -1726,7 +1753,9 @@ but we will highlight some key points specific to the way that we work.
   \item
         Similarly,
         where possible,
-        plots \should use differing markers in addition to colours.
+        plots \should use differing markers in addition to colours,
+        to aid colourblind readers and those with black and white printers
+        in interpreting them correctly.
         Where necessary,
         plots \may use markers and colours to differentiate different degrees of freedom.
   \item
@@ -1736,7 +1765,7 @@ but we will highlight some key points specific to the way that we work.
   \item
         Plots \should specify a \verb|figsize|
         equal to the anticipated size in the final manuscript,
-        so that they may be used in LaTeX without specifying the \verb|\width| option.
+        so that they can be used in LaTeX without specifying the \verb|\width| option.
         This ensures that font sizes remain consistent and legible.
   \item
         Plots \should be included in LaTeX files using syntax like:
@@ -1744,21 +1773,22 @@ but we will highlight some key points specific to the way that we work.
 \includegraphics{assets/plots/spectrum}
 \end{verbatim}
         The \texttt{width=} argument \shouldnot be specified,
-        and should not need to be.
+        and \shouldnot need to be.
   \item
         Axis and other labels on plots \must match the notation used in the main text.
   \item
         Where the caption of a figure depends on the specific parameters used to generate it,
-        then a \filename{.tex} file \should also be generated containing the caption.
+        then a \filename{.tex} file \should also be generated containing the caption,
+        or a definition file generated as described in Section~\ref{sec:definitions}.
         For example,
         if the workflow generates a plot \filename{spectrum\_beta2.3.pdf},
-        it should also generate a file \filename{spectrum\_beta2.3\_figure.tex},
+        it would also generate a file \filename{spectrum\_beta2.3\_figure.tex},
         containing something along the lines of
 \begin{verbatim}
 \begin{figure}
   \includegraphics{assets/plots/spectrum_beta2.3}
   \caption{\label{fig:spectrum-betatwopointthree}
-  The spectrum of the theory at $\beta=2.3''}
+  The spectrum of the theory at $\beta=2.3$}
 \end{figure}
 \end{verbatim}
         In this instance,
@@ -1785,7 +1815,7 @@ being mixed into the final manuscript.
   \item
         There \must be a 1:1 correspondence between tables and \filename{.tex} files generated.
         That is,
-        each table should be in its own \filename{.tex} file.
+        each table \must be in its own \filename{.tex} file.
   \item
         Each table file \must contain the entire table,
         starting with \verb|\begin{tabular}|
@@ -1823,18 +1853,18 @@ being mixed into the final manuscript.
 For plain tables of numbers without uncertainties,
 Pandas DataFrames have a \verb|styler.to_latex| method to enable this.
 For tables of numbers with uncertainties,
-this method may be used in conjunction with
+this method \may be used in conjunction with
 the \program{format\_multiple\_errors}~\cite{fme} library.
 Where horizontal lines are needed to break up sections of a table,
 currently this is challenging to achieve with Pandas,
-but a pull request is open that may enable this in future.
+but a pull request is open that is hoped to enable this in future.
 
 \subsubsection{Definitions}
 
 Frequently,
 we want to discuss numerical results in our papers,
 including quoting the numbers themselves.
-Our first temptation may be to write the number in the text manually.
+Our first temptation might be to write the number in the text manually.
 However,
 if during drafting,
 an additional data point is added that changes a fit result in the second decimal place,
@@ -1842,10 +1872,10 @@ it is easy for these numbers to become inconsistent with the actual analysis res
 
 To avoid this,
 our workflows \should output definitions of LaTeX commands
-that may be used in documents as placeholders for the numbers,
+that can be used in documents as placeholders for the numbers,
 that will then be filled in by the workflow.
 For example,
-our workflow may define a command
+our workflow might define a command
 \begin{verbatim}
 \newcommand\PSMassContinuum{0.1234(56)(78)}
 \end{verbatim}
@@ -1864,7 +1894,8 @@ which would in turn render in the document as\\
         they \must be used in place of all instances of the relevant number.
   \item
         Definitions \shouldnot force math mode,
-        since in some instances they may be used inside a larger mathematical environment.
+        since in some instances
+        they might be used inside a larger mathematical environment.
         (They \may use \verb|\ensuremath|.)
   \item
         Definition files \must have the \filename{.tex} extension.
@@ -1893,7 +1924,7 @@ this is beyond our current capacity,
 but \should be on our roadmap.
 However,
 retaining a subset of provenance information still has value.
-This may be ``stamped'' as a comment in a file,
+This \may be ``stamped'' as a comment in a file,
 and/or included as an additional file.
 
 \begin{itemize}
@@ -1928,8 +1959,8 @@ but \should most likely include:
 \begin{itemize}
   \item
         A comment warning that the asset was/assets were automatically generated,
-        and should not be directly modified,
-        but instead that the workflow should be re-run.
+        and \shouldnot be directly modified,
+        but instead that the workflow \should be re-run.
         This \should be sorted to appear at the top of the listing.
   \item
         The commit ID of the workflow used to generate the asset,
@@ -2008,7 +2039,7 @@ One way to gain this feedback is through code review.
 Where a workflow is being developed collaboratively by multiple people,
 changes to the workflow \should be developed in branches,
 and then submitted to the main branch as pull requests.
-Feedback should then be given on the content of the pull request
+Feedback \should then be given on the content of the pull request
 by another co-author of the workflow.
 Feedback \must be constructive and positive.
 The pull requester and the reviewer \should come to an agreement on
@@ -2056,8 +2087,8 @@ Workflows \should still be tested by other collaboration members to ensure porta
 
 While in Sec.~\ref{sec:reproducibility} we define reproducibility in black and white,
 there are in fact certain degrees to which data are reproducible.
-They may give compatible results within error bars,
-or may give identical results down to the last bit,
+They might give compatible results within error bars,
+or might give identical results down to the last bit,
 or something in between.
 
 An analysis workflow \should give bitwise identical output,
@@ -2082,13 +2113,13 @@ an in principle negligible but noticeable dependence on the choice of random num
 As such,
 we \must fix random seeds before performing a computation with randomness.
 This \must be done separately for each workflow rule;
-since the workflow may execute in any order compatible with the data dependencies,
-different runs may otherwise give different results.
+since the workflow can execute in any order compatible with the data dependencies,
+different runs might otherwise give different results.
 
 Random seeds \must be different for each ensemble,
 since otherwise correlations are introduced between them.
 In order to avoid hardcoding specific random seeds,
-which may raise questions in the minds of readers of our workflows
+which could raise questions in the minds of readers of our workflows
 (``Where did that number come from?''
 ``Was it chosen to give a specific outcome?''),
 we generate seeds deterministically from input metadata.
@@ -2097,7 +2128,7 @@ it is \recommended to use a hash of the ensemble name as the random seed.
 This has the benefit that
 having the same bootstrap samples for different observables is simplified.
 
-An example Python implementation may look like:
+An example Python implementation might look like:
 
 \begin{verbatim}
 import hashlib
@@ -2181,7 +2212,7 @@ and \should be published as a new version of the same record.
 \subsubsection{Preparing an archive}
 
 In principle,
-one may connect GitHub with Zenodo,
+one could connect GitHub with Zenodo,
 and automatically generate a record from a GitHub Release.
 However,
 as discussed above,
@@ -2208,7 +2239,7 @@ Data from the data release \mustnot be included in the workflow release.
 
 \subsubsection{What to include in a release}
 
-The release should include two files:
+The release \should include two files:
 
 \begin{itemize}
   \item
@@ -2229,7 +2260,7 @@ with the following exceptions:
         The Resource Type \should be ``Workflow''.
   \item
         The Title \should be the title of the corresponding article,
-        followed by ``---Workflow''.
+        followed by ``---Analysis workflow''.
   \item
         The License \should match the one agreed and specified in the repository.
   \item
@@ -2287,9 +2318,9 @@ a lack of clarity around appropriate authorship for the resulting Zenodo record.
 
 After making a change to a piece of software,
 the developer \should think carefully about whether
-the change should be fed back to the upstream repository.
+it is valuable for the change to  be fed back to the upstream repository.
 In instances where the change is likely to be an obstruction to others' use cases,
-this should likely not be done,
+this is likely not a good idea,
 but if the change is neutral or positive,
 then minimally,
 the change \should be proposed to the upstream maintainer.
@@ -2329,6 +2360,7 @@ More specifically,
         but is anticipated to become available very shortly.
         }.
         At time of writing,
+        in the versions in use within the TELOS Collaboration,
         neither Grid nor HiRep is able to do this;
         HiRep cannot write the ILDG format at all\footnote{
           The HiRep binary format is compatible with
@@ -2392,7 +2424,7 @@ we discuss below some requirements to inform their development.
 
 \subsubsection{\program{hmcdj}}
 
-This should:
+The anticipated responsibilities of this software are:
 
 \begin{itemize}
   \item
@@ -2414,7 +2446,7 @@ This should:
   \item
         Save provenance and metadata with each configuration,
         as discussed above.
-        This should make it clear,
+        This \should make it clear,
         for example,
         at what point a secondary chain branched off its parent,
         and when parameters such as the trajectory length were adjusted.
@@ -2492,7 +2524,7 @@ without affecting the performance of the latter.
 This gives significantly better utilisation of the resources,
 both in terms of resource time allocation
 and in terms of total energy utilisation.
-We anticipate that \program{PlateSpinner} may also manage this process.
+We anticipate that \program{PlateSpinner} will also manage this process.
 
 The requirements for \program{PlateSpinner} are similar to the capabilities of \program{Taxi}~\cite{Ayyar:2018wwf};
 however,
@@ -2521,8 +2553,11 @@ the authors have
 applied a Creative Commons Attribution (CC BY) licence
 to any Author Accepted Manuscript version arising.
 
-\paragraph*{Research Data Access Statement}
-No new data or software were produced in preparation or in support of this work.
+\paragraph*{Data Availability Statement}
+No new data were produced in preparation or in support of this work.
+
+\paragraph*{Software Availability Statement}
+No new software was produced in preparation or in support of this work.
 
 
 
@@ -2550,6 +2585,7 @@ is a set of tasks that \should be completed before the goal can be completed
     \Task{open}{Software names and versions (e.g.\ commit IDs) are specified}
     \Task{open}{Rights retention statement is present}
     \Task{open}{Data availability statement is present}
+    \Task{open}{Software availability statement is present}
   \end{CheckList}
   \Goal{open}{Publish data release}
   \begin{CheckList}{Task}
@@ -2621,6 +2657,7 @@ is a set of tasks that \should be completed before the goal can be completed
   \end{CheckList}
 \end{CheckList}
 
+\clearpage
 \section{Applying these techniques outside of lattice}\label{app:nonlattice}
 
 The guidance in this document has been written
@@ -2635,7 +2672,7 @@ while OpenML~\cite{OpenML2013}
 provides tooling and resources for open research using machine learning techniques.
 
 That said,
-there is a subset of the advice presented here that may be summarised
+there is a subset of the advice presented here that can be summarised
 to form a minimal set of principles applicable,
 for example,
 in work in theoretical physics not on the lattice.
@@ -2660,8 +2697,8 @@ then it is data and \must be released.
 These numbers \must be shared in CSV format,
 unless there is a strong reason to do otherwise.
 It is worth thinking carefully about how to combine related data
-to minimise the number of separate files that a reader must work with;
-this may differ from the native representations you currently use.
+to minimise the number of separate files that a reader has to work with;
+this might differ from the native representations you currently use.
 Where a metadata schema is available,
 this \must be followed to ensure interoperability and reusability;
 regardless,
@@ -2694,7 +2731,7 @@ a brief guide to completing the Zenodo upload form for lattice data.
 \subsection{Workflows}
 
 A first step in the direction of open workflows
-is to share the tools required to translate
+is to share the tools needed to translate
 from the data shared in the data release
 to the outputs in the publication
 (plots, tables, etc.,
@@ -2744,7 +2781,7 @@ without needing to reinvent the wheel.
 
 \subsection{Publications}
 
-Aside from mentions of high-performance computing which may not be relevant,
+Aside from mentions of high-performance computing which might not be relevant,
 all of the discussion of Section~\ref{sec:publications} applies more widely.
 Specifically,
 all narrative work \should be released under a Creative Commons license;
