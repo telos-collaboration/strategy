@@ -1,5 +1,8 @@
 name: Build LaTeX document
-on: [push]
+on:
+  push:
+    tags:
+      - 'v*'
 jobs:
   build_latex:
     runs-on: ubuntu-latest
@@ -10,8 +13,23 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: strategy.tex
-      - name: Upload PDF file
-        uses: actions/upload-artifact@v4
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: PDF
-          path: strategy.pdf
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: ""
+          draft: false
+          prerelease: false
+      - name: upload artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./strategy.pdf
+          asset_name: strategy.pdf
+          asset_content_type: application/pdf
